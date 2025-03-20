@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="module" src="js/main.js"></script>
+    <title>To Do</title>
+  </head>
+  <body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="w-full min-w-md max-w-4xl bg-white rounded shadow-md p-6 m-4">
+      <header class="flex justify-between items-center mb-4">
+        <h1 class="text-xl font-bold">To Do</h1>
+        <button
+          id="add-button"
+          class="bg-blue-500 text-white px-3 py-2 text-sm font-medium rounded"
+        >
+          Add Task
+        </button>
+      </header>
+
+      <div id="task-form-container" class="mb-4 hidden">
+        <form id="task-form" class="flex gap-2">
+          <input
+            type="text"
+            id="task-input"
+            class="border rounded px-2 py-1 flex-grow"
+            placeholder="Add a new task..."
+            required
+          />
+          <button
+            type="submit"
+            class="bg-green-500 text-white px-2 py-2 text-sm font-medium rounded"
+          >
+            Save
+          </button>
+          <button
+            type="button"
+            id="cancel-button"
+            class="bg-gray-300 px-3 py-2 text-sm font-medium rounded"
+          >
+            Cancel
+          </button>
+        </form>
+      </div>
+
+      <div id="tasks-container">
+        <p id="empty-task" class="text-center text-gray-500 py-4">
+          No tasks yet. Add your first task!
+        </p>
+      </div>
+    </div>
+  </body>
+</html>
