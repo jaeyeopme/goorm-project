@@ -1,0 +1,71 @@
+.video-grid {
+  display: flex;
+  /* 줄바꿈 */
+  flex-wrap: wrap;
+  gap: 16px 40px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.video-preview {
+  flex: 1 1 250px;
+  min-width: 250px;
+  max-width: 400px;
+}
+
+.thumbnail-row {
+  position: relative;
+  margin-bottom: 8px;
+}
+
+.thumbnail {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.video-time {
+  position: absolute;
+  bottom: 8px;
+  right: 5px;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 4px;
+  border-radius: 2px;
+  background-color: black;
+  color: white;
+}
+
+.video-info-grid {
+  display: flex;
+  gap: 12px;
+}
+
+.profile-picture {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.video-info {
+  flex: 1;
+}
+
+.video-author {
+  margin-bottom: 4px;
+}
+
+.video-title {
+  margin-top: 0;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  margin-bottom: 10px;
+}
+
+.video-author,
+.video-stats {
+  font-size: 12px;
+  color: #aaaaaa;
+}
