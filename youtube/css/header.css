@@ -53,6 +53,7 @@
   border: 1px solid #4d4d4d;
   border-radius: 2px;
   background-color: #121212;
+  color: white;
 }
 
 .search-bar::placeholder {
@@ -68,6 +69,7 @@
 
   background-color: #323232;
   border: 1px solid #4d4d4d;
+  cursor: pointer;
 }
 
 .voice-search-button {

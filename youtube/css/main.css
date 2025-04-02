@@ -1,16 +1,48 @@
 .video-grid {
-  display: flex;
-  /* 줄바꿈 */
-  flex-wrap: wrap;
+  display: grid;
   gap: 16px 40px;
   padding: 20px;
-  box-sizing: border-box;
+  grid-template-columns: 1fr;
+}
+
+/* 150px보다 큰 화면 (거의 모든 화면) */
+@media (min-width: 150px) {
+  .video-grid {
+    grid-template-columns: repeat(1, 1fr); /* 기본 1열 */
+  }
+}
+
+/* 576px보다 큰 화면 */
+@media (min-width: 576px) {
+  .video-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* 900px보다 큰 화면 */
+@media (min-width: 900px) {
+  .video-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* 1200px보다 큰 화면 */
+@media (min-width: 1200px) {
+  .video-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* 1500px보다 큰 화면 */
+@media (min-width: 1500px) {
+  .video-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
 }
 
 .video-preview {
-  flex: 1 1 250px;
-  min-width: 250px;
-  max-width: 400px;
+  min-width: 0px;
+  margin-bottom: 20px;
 }
 
 .thumbnail-row {
@@ -22,6 +54,7 @@
   width: 100%;
   aspect-ratio: 16 / 9;
   object-fit: cover;
+  border-radius: 10px;
 }
 
 .video-time {
