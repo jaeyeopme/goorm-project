@@ -48,7 +48,7 @@ export class TaskUI {
   #createTaskElement(task, handlers) {
     const $task = document.createElement('div')
     $task.id = `task-${task.id}`
-    $task.className = `border-b p-3 w-full gap-2 flex items-center ${
+    $task.className = `border-b pt-3 pb-3 w-full gap-2 flex items-center ${
       task.completed ? 'bg-gray-50' : ''
     }`
     $task.innerHTML = `
