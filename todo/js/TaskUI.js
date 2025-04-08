@@ -14,7 +14,7 @@ export class TaskUI {
     $text.value = newText
   }
 
-  updateTaskCompletion(id, completed) {
+  toggleTaskCompletion(id, completed) {
     const $task = document.getElementById(`task-${id}`)
     $task.classList.toggle('bg-gray-50', completed)
 
@@ -25,11 +25,11 @@ export class TaskUI {
     $text.classList.toggle('pointer-events-none', completed)
   }
 
-  updateTaskImportance(id, importance) {
+  toggleTaskImportance(id, importance) {
     const $task = document.getElementById(`task-${id}`)
     const $starIcon = $task.querySelector('.importance-star i')
 
-    if (importance) {
+    if (!importance) {
       $starIcon.classList.replace('far', 'fas')
       $starIcon.classList.add('text-yellow-400')
       $starIcon.classList.remove('text-gray-300')

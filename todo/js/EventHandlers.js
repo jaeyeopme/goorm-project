@@ -53,17 +53,14 @@ export class EventHandler {
     return {
       onToggleComplete: (id) => {
         this.taskManager.toggleTaskCompletion(id)
-        const completed = this.taskManager
-          .getTasks()
-          .find((task) => task.id === id).completed
-        this.taskUI.updateTaskCompletion(id, completed)
+        const completed = this.taskManager.getTask(id).completed
+        this.taskUI.toggleTaskCompletion(id, completed)
       },
       onToggleImportance: (id) => {
+        const task = this.taskManager.getTask(id)
+        if (task.completed) return
         this.taskManager.toggleTaskImportance(id)
-        const importance = this.taskManager
-          .getTasks()
-          .find((task) => task.id === id).importance
-        this.taskUI.updateTaskImportance(id, importance)
+        this.taskUI.toggleTaskImportance(id, task.importance)
       },
       onDelete: (id) => {
         this.taskManager.deleteTask(id)

@@ -51,6 +51,10 @@ export class TaskManager {
     return this.tasks
   }
 
+  getTask(id) {
+    return this.tasks.find((task) => task.id === id)
+  }
+
   isEmpty() {
     return this.tasks.length === 0
   }
