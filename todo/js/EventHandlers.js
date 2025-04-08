@@ -2,46 +2,54 @@ export class EventHandler {
   constructor(taskManager, taskUI) {
     this.taskManager = taskManager
     this.taskUI = taskUI
-    this.emptyTask = document.getElementById('empty-task')
-
-    this.setupEventListeners()
-    this.renderInitialTasks()
   }
 
-  setupEventListeners() {
-    const addButton = document.getElementById('add-button')
-    const taskFormContainer = document.getElementById('task-form-container')
-    const taskForm = document.getElementById('task-form')
-    const taskInput = document.getElementById('task-input')
-    const cancelButton = document.getElementById('cancel-button')
+  init() {
+    this.#setupEventListeners()
+    this.#setupTasks()
+  }
 
-    addButton.addEventListener('click', () => {
-      taskFormContainer.classList.remove('hidden')
-      taskInput.focus()
+  #setupTasks() {
+    const tasks = this.taskManager.getTasks()
+    this.taskUI.renderTasks(tasks, this.#getEventCallbacks())
+    this.#setEmptyTask()
+  }
+
+  #setupEventListeners() {
+    const $taskFormContainer = document.getElementById('task-form-container')
+    const $taskForm = document.getElementById('task-form')
+    const $taskInput = document.getElementById('task-input')
+
+    const $addButton = document.getElementById('add-button')
+    const $cancelButton = document.getElementById('cancel-button')
+
+    $addButton.addEventListener('click', () => {
+      $taskFormContainer.classList.remove('hidden')
+      $taskInput.focus()
     })
 
-    taskForm.addEventListener('submit', (e) => {
+    $taskForm.addEventListener('submit', (e) => {
       e.preventDefault()
-      const text = taskInput.value.trim()
-      if (text) {
-        const task = this.taskManager.addTask(text)
-        this.taskUI.addTask(task, this.getEventCallbacks())
-        this.setEmptyTaskVisibility()
+      const text = $taskInput.value.trim()
 
-        taskInput.value = ''
-        taskFormContainer.classList.add('hidden')
-      }
+      if (!text) return
+
+      const task = this.taskManager.addTask(text)
+      this.taskUI.addTask(task, this.#getEventCallbacks())
+
+      $taskInput.value = ''
+      $taskFormContainer.classList.add('hidden')
+
+      this.#setEmptyTask()
     })
 
-    if (cancelButton) {
-      cancelButton.addEventListener('click', () => {
-        taskInput.value = ''
-        taskFormContainer.classList.add('hidden')
-      })
-    }
+    $cancelButton.addEventListener('click', () => {
+      $taskInput.value = ''
+      $taskFormContainer.classList.add('hidden')
+    })
   }
 
-  getEventCallbacks() {
+  #getEventCallbacks() {
     return {
       onToggleComplete: (id) => {
         this.taskManager.toggleTaskCompletion(id)
@@ -50,13 +58,11 @@ export class EventHandler {
           this.taskManager.isTaskCompleted(id)
         )
       },
-
       onDelete: (id) => {
         this.taskManager.deleteTask(id)
         this.taskUI.removeTask(id)
-        this.setEmptyTaskVisibility()
+        this.#setEmptyTask()
       },
-
       onUpdate: (id, newText) => {
         this.taskManager.updateTask(id, newText)
         this.taskUI.updateTaskText(id, newText)
@@ -64,17 +70,11 @@ export class EventHandler {
     }
   }
 
-  setEmptyTaskVisibility() {
-    if (this.taskManager.isEmpty()) {
-      this.emptyTask.classList.remove('hidden')
+  #setEmptyTask() {
+    if (!this.taskManager.isEmpty()) {
+      this.taskUI.removeEmptyTask()
       return
     }
-    this.emptyTask.classList.add('hidden')
-  }
-
-  renderInitialTasks() {
-    const tasks = this.taskManager.getTasks()
-    this.taskUI.renderTasks(tasks, this.getEventCallbacks())
-    this.setEmptyTaskVisibility()
+    this.taskUI.addEmptyTask()
   }
 }
