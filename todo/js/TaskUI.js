@@ -25,6 +25,21 @@ export class TaskUI {
     $text.classList.toggle('pointer-events-none', completed)
   }
 
+  updateTaskImportance(id, importance) {
+    const $task = document.getElementById(`task-${id}`)
+    const $starIcon = $task.querySelector('.importance-star i')
+
+    if (importance) {
+      $starIcon.classList.replace('far', 'fas')
+      $starIcon.classList.add('text-yellow-400')
+      $starIcon.classList.remove('text-gray-300')
+    } else {
+      $starIcon.classList.replace('fas', 'far')
+      $starIcon.classList.remove('text-yellow-400')
+      $starIcon.classList.add('text-gray-300')
+    }
+  }
+
   removeTask(id) {
     document.getElementById(`task-${id}`).remove()
   }
@@ -54,38 +69,53 @@ export class TaskUI {
     $task.className = `border-b pt-3 pb-3 w-full gap-2 flex items-center ${
       task.completed ? 'bg-gray-50' : ''
     }`
+
     $task.innerHTML = `
-      <div class="flex items-center w-full gap-2">
-        <input type="checkbox" class="flex-shrink-0" ${
-          task.completed ? 'checked' : ''
-        } />
-        <input type="text" 
-          class="flex-1 w-full px-2 py-1 outline-none border-none ${
-            task.completed
-              ? 'line-through text-gray-500 pointer-events-none bg-gray-50'
-              : ''
-          } 
-          cursor-pointer" 
-          value="${task.text}" />
-        <button class="delete-btn flex-shrink-0 bg-red-500 text-white px-2 py-1 text-sm font-medium rounded-lg">Remove</button>
-      </div>
-    `
+        <div class="flex items-center w-full gap-2">
+          <input type="checkbox" class="flex-shrink-0" ${
+            task.completed ? 'checked' : ''
+          } />
+          
+          <button class="importance-star flex-shrink-0 text-lg px-1 focus:outline-none" title="Toggle importance">
+            <i class="fa${task.importance ? 's' : 'r'} fa-star ${
+      task.importance ? 'text-yellow-400' : 'text-gray-300'
+    }"></i>
+          </button>
+          
+          <input type="text" 
+            class="flex-1 w-full px-2 py-1 outline-none border-none ${
+              task.completed
+                ? 'line-through text-gray-500 pointer-events-none bg-gray-50'
+                : ''
+            } 
+            cursor-pointer" 
+            value="${task.text}" />
+          <button class="delete-btn flex-shrink-0 bg-red-500 text-white px-2 py-1 text-sm font-medium rounded-lg">Remove</button>
+        </div>
+      `
+
+    // Delete task
+    $task
+      .querySelector('.delete-btn')
+      .addEventListener('click', () => handlers.onDelete(task.id))
 
     // Toggle task completion
-    $task
-      .querySelector('input[type="checkbox"]')
-      .addEventListener('change', () => handlers.onToggleComplete(task.id))
+    const $checkbox = $task.querySelector('input[type="checkbox"]')
+    $checkbox.addEventListener('change', () =>
+      handlers.onToggleComplete(task.id)
+    )
+
+    // Toggle task importance
+    const $importanceStar = $task.querySelector('.importance-star')
+    $importanceStar.addEventListener('click', () =>
+      handlers.onToggleImportance(task.id, !task.importance)
+    )
 
     // Edit task text on blur
     const $text = $task.querySelector('input[type="text"]')
     $text.addEventListener('blur', () =>
       handlers.onUpdate(task.id, $text.value)
     )
-
-    // Delete task
-    $task
-      .querySelector('.delete-btn')
-      .addEventListener('click', () => handlers.onDelete(task.id))
 
     return $task
   }

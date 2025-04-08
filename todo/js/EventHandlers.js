@@ -21,6 +21,7 @@ export class EventHandler {
 
     const $addButton = document.getElementById('add-button')
     const $cancelButton = document.getElementById('cancel-button')
+    const $modalCloseButton = document.getElementById('modal-close')
 
     $addButton.addEventListener('click', () => {
       $taskFormContainer.classList.remove('hidden')
@@ -44,6 +45,7 @@ export class EventHandler {
       this.#setEmptyTask()
     })
 
+    $modalCloseButton.addEventListener('click', hiddenTaskForm)
     $cancelButton.addEventListener('click', hiddenTaskForm)
   }
 
@@ -55,6 +57,13 @@ export class EventHandler {
           .getTasks()
           .find((task) => task.id === id).completed
         this.taskUI.updateTaskCompletion(id, completed)
+      },
+      onToggleImportance: (id) => {
+        this.taskManager.toggleTaskImportance(id)
+        const importance = this.taskManager
+          .getTasks()
+          .find((task) => task.id === id).importance
+        this.taskUI.updateTaskImportance(id, importance)
       },
       onDelete: (id) => {
         this.taskManager.deleteTask(id)

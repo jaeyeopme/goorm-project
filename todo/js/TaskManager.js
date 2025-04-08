@@ -14,6 +14,7 @@ export class TaskManager {
       id: Date.now(),
       text,
       completed: false,
+      importance: false,
     }
     this.tasks.push(task)
     this.#saveTasks()
@@ -30,6 +31,13 @@ export class TaskManager {
   toggleTaskCompletion(id) {
     this.tasks = this.tasks.map((task) =>
       task.id === id ? { ...task, completed: !task.completed } : task
+    )
+    this.#saveTasks()
+  }
+
+  toggleTaskImportance(id) {
+    this.tasks = this.tasks.map((task) =>
+      task.id === id ? { ...task, importance: !task.importance } : task
     )
     this.#saveTasks()
   }
