@@ -31,7 +31,6 @@ export class EventHandler {
     $taskForm.addEventListener('submit', (e) => {
       e.preventDefault()
       const text = $taskInput.value.trim()
-
       if (!text) return
 
       const task = this.taskManager.addTask(text)
@@ -53,10 +52,8 @@ export class EventHandler {
     return {
       onToggleComplete: (id) => {
         this.taskManager.toggleTaskCompletion(id)
-        this.taskUI.updateTaskCompletion(
-          id,
-          this.taskManager.isTaskCompleted(id)
-        )
+        const completed = this.taskManager.getTasks().find((task) => task.id === id).completed
+        this.taskUI.updateTaskCompletion(id, completed)
       },
       onDelete: (id) => {
         this.taskManager.deleteTask(id)

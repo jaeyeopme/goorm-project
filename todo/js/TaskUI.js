@@ -21,6 +21,7 @@ export class TaskUI {
     const $text = $task.querySelector('input[type="text"]')
     $text.classList.toggle('line-through', completed)
     $text.classList.toggle('text-gray-500', completed)
+    $text.classList.toggle('bg-gray-50', completed)
     $text.classList.toggle('pointer-events-none', completed)
   }
 
@@ -59,7 +60,7 @@ export class TaskUI {
         <input type="text" 
           class="flex-1 w-full px-2 py-1 outline-none border-none ${
             task.completed
-              ? 'line-through text-gray-500 pointer-events-none'
+              ? 'line-through text-gray-500 pointer-events-none bg-gray-50'
               : ''
           } 
           cursor-pointer" 
