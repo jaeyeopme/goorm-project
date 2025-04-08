@@ -30,8 +30,10 @@ export class TaskUI {
   }
 
   renderTasks(tasks, handlers) {
-    if (tasks.length === 0) return
-    this.$container.innerHTML = ''
+    if (tasks.length === 0) {
+      this.addEmptyTask()
+      return
+    }
     tasks.forEach((task) => {
       const $task = this.#createTaskElement(task, handlers)
       this.$container.prepend($task)
@@ -65,7 +67,7 @@ export class TaskUI {
           } 
           cursor-pointer" 
           value="${task.text}" />
-        <button class="delete-btn flex-shrink-0 bg-red-500 text-white px-2 py-1 text-sm font-medium rounded">Remove</button>
+        <button class="delete-btn flex-shrink-0 bg-red-500 text-white px-2 py-1 text-sm font-medium rounded-lg">Remove</button>
       </div>
     `
 

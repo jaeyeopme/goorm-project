@@ -12,7 +12,6 @@ export class EventHandler {
   #setupTasks() {
     const tasks = this.taskManager.getTasks()
     this.taskUI.renderTasks(tasks, this.#getEventCallbacks())
-    this.#setEmptyTask()
   }
 
   #setupEventListeners() {
@@ -28,6 +27,11 @@ export class EventHandler {
       $taskInput.focus()
     })
 
+    const hiddenTaskForm = () => {
+      $taskInput.value = ''
+      $taskFormContainer.classList.add('hidden')
+    }
+
     $taskForm.addEventListener('submit', (e) => {
       e.preventDefault()
       const text = $taskInput.value.trim()
@@ -36,23 +40,20 @@ export class EventHandler {
       const task = this.taskManager.addTask(text)
       this.taskUI.addTask(task, this.#getEventCallbacks())
 
-      $taskInput.value = ''
-      $taskFormContainer.classList.add('hidden')
-
+      hiddenTaskForm()
       this.#setEmptyTask()
     })
 
-    $cancelButton.addEventListener('click', () => {
-      $taskInput.value = ''
-      $taskFormContainer.classList.add('hidden')
-    })
+    $cancelButton.addEventListener('click', hiddenTaskForm)
   }
 
   #getEventCallbacks() {
     return {
       onToggleComplete: (id) => {
         this.taskManager.toggleTaskCompletion(id)
-        const completed = this.taskManager.getTasks().find((task) => task.id === id).completed
+        const completed = this.taskManager
+          .getTasks()
+          .find((task) => task.id === id).completed
         this.taskUI.updateTaskCompletion(id, completed)
       },
       onDelete: (id) => {
