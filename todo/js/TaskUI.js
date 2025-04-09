@@ -85,7 +85,7 @@ export class TaskUI {
 
     switch (sortOption) {
       case 'oldest':
-        processedTasks.sort((a, b) => a.id - b.id)
+        processedTasks.sort((a, b) => b.id - a.id)
         break
       case 'importance':
         processedTasks.sort((a, b) => {
@@ -94,7 +94,7 @@ export class TaskUI {
         })
         break
       default: // newest
-        processedTasks.sort((a, b) => b.id - a.id)
+        processedTasks.sort((a, b) => a.id - b.id)
         break
     }
 

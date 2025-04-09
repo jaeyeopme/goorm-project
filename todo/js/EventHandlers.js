@@ -71,14 +71,13 @@ export class EventHandler {
     return {
       onToggleComplete: (id) => {
         this.taskManager.toggleTaskCompletion(id)
-        const completed = this.taskManager.getTask(id).completed
-        this.taskUI.toggleTaskCompletion(id, completed)
+        this.#renderTasks()
       },
       onToggleImportance: (id) => {
         const task = this.taskManager.getTask(id)
         if (task.completed) return
         this.taskManager.toggleTaskImportance(id)
-        this.taskUI.toggleTaskImportance(id, task.importance)
+        this.#renderTasks()
       },
       onDelete: (id) => {
         this.taskManager.deleteTask(id)
