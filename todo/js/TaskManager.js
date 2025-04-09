@@ -47,19 +47,12 @@ export class TaskManager {
     this.#saveTasks()
   }
 
-  searchTasks(query) {
-    if (!query) return this.tasks
-    return this.tasks.filter((task) =>
-      task.text.toLowerCase().includes(query.toLowerCase())
-    )
-  }
-
   getTasks() {
-    return this.tasks.sort((a, b) => b.id - a.id)
+    return this.tasks.sort((a, b) => a.id - b.id)
   }
 
   getTask(id) {
-    return this.tasks.find((task) => task.id === id)
+    return this.tasks.find((it) => it.id === id)
   }
 
   isEmpty() {

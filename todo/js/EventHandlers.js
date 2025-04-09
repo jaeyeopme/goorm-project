@@ -2,21 +2,15 @@ export class EventHandler {
   constructor(taskManager, taskUI) {
     this.taskManager = taskManager
     this.taskUI = taskUI
+
+    this.$searchInput = document.getElementById('search-input')
+    this.$filterSelect = document.getElementById('filter-select')
+    this.$sortSelect = document.getElementById('sort-select')
   }
 
   init() {
     this.#setupEventListeners()
-    this.#setupTasks()
-  }
-
-  #setupTasks() {
-    const tasks = this.taskManager.getTasks()
-    this.taskUI.renderTasks(tasks, this.#getEventCallbacks())
-    if (tasks.length === 0) {
-      this.taskUI.addEmptyTask()
-    } else {
-      this.taskUI.removeEmptyTask()
-    }
+    this.#renderTasks()
   }
 
   #setupEventListeners() {
@@ -27,16 +21,6 @@ export class EventHandler {
     const $addButton = document.getElementById('add-button')
     const $cancelButton = document.getElementById('cancel-button')
     const $modalCloseButton = document.getElementById('modal-close')
-
-    const $searchInput = document.getElementById('search-input')
-
-    // Search tasks
-    $searchInput.addEventListener('input', (e) => {
-      const query = e.target.value.trim()
-      const tasks = this.taskManager.searchTasks(query)
-      this.taskUI.clearTasks()
-      this.taskUI.renderTasks(tasks, this.#getEventCallbacks())
-    })
 
     // Open add task modal
     $addButton.addEventListener('click', () => {
@@ -63,51 +47,27 @@ export class EventHandler {
       const text = $taskInput.value.trim()
       if (!text) return
       const task = this.taskManager.addTask(text)
-      this.taskUI.addTask(task, this.#getEventCallbacks())
-      this.taskUI.removeEmptyTask()
+      this.taskUI.addTask(task, this.#getTaskEventCallbacks())
+      this.taskUI.toggleEmptyTask(false)
       closeAddTaskModal()
     })
 
-    // Filter tasks
-    const $filterSelect = document.getElementById('filter-select')
-    $filterSelect.addEventListener('change', (e) => {
-      const filter = e.target.value
-      const tasks = this.taskManager.getTasks()
-      this.taskUI.clearTasks()
-      if (filter === 'all') {
-        this.taskUI.renderTasks(tasks, this.#getEventCallbacks())
-        return
-      }
-      const filteredTasks = tasks.filter((task) => {
-        if (filter === 'completed') return task.completed === true
-        if (filter === 'pending') return task.completed === false
-      })
-      this.taskUI.renderTasks(filteredTasks, this.#getEventCallbacks())
-    })
+    this.$searchInput.addEventListener('input', () => this.#renderTasks())
+    this.$filterSelect.addEventListener('change', () => this.#renderTasks())
+    this.$sortSelect.addEventListener('change', () => this.#renderTasks())
+  }
 
-    const $sortSelect = document.getElementById('sort-select')
-    $sortSelect.addEventListener('change', (e) => {
-      const sort = e.target.value
-      const tasks = this.taskManager.getTasks()
-      this.taskUI.clearTasks()
-      switch (sort) {
-        case 'oldest':
-          this.taskUI.renderTasks(tasks.reverse(), this.#getEventCallbacks())
-          break
-        case 'importance':
-          const sortedTasks = tasks.sort((a, b) =>
-            a.importance === b.importance ? 0 : a.importance ? 1 : -1
-          )
-          this.taskUI.renderTasks(sortedTasks, this.#getEventCallbacks())
-          break
-        default:
-          this.taskUI.renderTasks(tasks, this.#getEventCallbacks())
-          break
-      }
+  #renderTasks() {
+    this.taskUI.renderTasks({
+      tasks: this.taskManager.getTasks(),
+      query: this.$searchInput.value,
+      filterOption: this.$filterSelect.value.trim(),
+      sortOption: this.$sortSelect.value,
+      handlers: this.#getTaskEventCallbacks(),
     })
   }
 
-  #getEventCallbacks() {
+  #getTaskEventCallbacks() {
     return {
       onToggleComplete: (id) => {
         this.taskManager.toggleTaskCompletion(id)
@@ -123,9 +83,7 @@ export class EventHandler {
       onDelete: (id) => {
         this.taskManager.deleteTask(id)
         this.taskUI.removeTask(id)
-        if (this.taskManager.isEmpty()) {
-          this.taskUI.addEmptyTask()
-        }
+        if (this.taskManager.isEmpty()) this.taskUI.toggleEmptyTask(true)
       },
       onUpdate: (id, newText) => {
         this.taskManager.updateTask(id, newText)

@@ -14,6 +14,10 @@ export class TaskUI {
     $text.value = newText
   }
 
+  removeTask(id) {
+    document.getElementById(`task-${id}`).remove()
+  }
+
   toggleTaskCompletion(id, completed) {
     const $task = document.getElementById(`task-${id}`)
     $task.classList.toggle('bg-gray-50', completed)
@@ -40,27 +44,65 @@ export class TaskUI {
     }
   }
 
-  removeTask(id) {
-    document.getElementById(`task-${id}`).remove()
+  renderTasks({ tasks = [], query, filterOption, sortOption, handlers }) {
+    const hasTasks = tasks.length > 0
+    this.toggleEmptyTask(!hasTasks)
+    if (!hasTasks) return
+
+    this.#clearTasks()
+
+    this.#processTasks({
+      tasks,
+      query,
+      filterOption,
+      sortOption,
+    }).forEach((it) =>
+      this.$container.prepend(this.#createTaskElement(it, handlers))
+    )
   }
 
-  renderTasks(tasks, handlers) {
-    tasks.forEach((task) => {
-      const $task = this.#createTaskElement(task, handlers)
-      this.$container.prepend($task)
-    })
+  toggleEmptyTask(isVisible) {
+    this.$emptyTask.classList.toggle('hidden', !isVisible)
   }
 
-  clearTasks() {
+  #processTasks({ tasks, query, filterOption, sortOption }) {
+    let processedTasks = [...tasks]
+
+    if (query) {
+      processedTasks = processedTasks.filter((task) =>
+        task.text.toLowerCase().includes(query.toLowerCase())
+      )
+    }
+
+    switch (filterOption) {
+      case 'completed':
+        processedTasks = processedTasks.filter((task) => task.completed)
+        break
+      case 'pending':
+        processedTasks = processedTasks.filter((task) => !task.completed)
+        break
+    }
+
+    switch (sortOption) {
+      case 'oldest':
+        processedTasks.sort((a, b) => a.id - b.id)
+        break
+      case 'importance':
+        processedTasks.sort((a, b) => {
+          if (a.importance === b.importance) return 0
+          return a.importance ? 1 : -1
+        })
+        break
+      default: // newest
+        processedTasks.sort((a, b) => b.id - a.id)
+        break
+    }
+
+    return processedTasks
+  }
+
+  #clearTasks() {
     this.$container.querySelectorAll('.task').forEach(($task) => $task.remove())
-  }
-
-  addEmptyTask() {
-    this.$emptyTask.classList.remove('hidden')
-  }
-
-  removeEmptyTask() {
-    this.$emptyTask.classList.add('hidden')
   }
 
   #createTaskElement(task, handlers) {
