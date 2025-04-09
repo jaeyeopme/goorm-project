@@ -55,7 +55,7 @@ export class TaskManager {
   }
 
   getTasks() {
-    return this.tasks
+    return this.tasks.sort((a, b) => b.id - a.id)
   }
 
   getTask(id) {

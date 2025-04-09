@@ -84,6 +84,27 @@ export class EventHandler {
       })
       this.taskUI.renderTasks(filteredTasks, this.#getEventCallbacks())
     })
+
+    const $sortSelect = document.getElementById('sort-select')
+    $sortSelect.addEventListener('change', (e) => {
+      const sort = e.target.value
+      const tasks = this.taskManager.getTasks()
+      this.taskUI.clearTasks()
+      switch (sort) {
+        case 'oldest':
+          this.taskUI.renderTasks(tasks.reverse(), this.#getEventCallbacks())
+          break
+        case 'importance':
+          const sortedTasks = tasks.sort((a, b) =>
+            a.importance === b.importance ? 0 : a.importance ? 1 : -1
+          )
+          this.taskUI.renderTasks(sortedTasks, this.#getEventCallbacks())
+          break
+        default:
+          this.taskUI.renderTasks(tasks, this.#getEventCallbacks())
+          break
+      }
+    })
   }
 
   #getEventCallbacks() {
