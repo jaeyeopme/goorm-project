@@ -31,7 +31,9 @@ export class TaskUI {
 
   toggleTaskImportance(id, importance) {
     const $task = document.getElementById(`task-${id}`)
+    if (!$task) return
     const $starIcon = $task.querySelector('.importance-star i')
+    if (!$starIcon) return
 
     if (!importance) {
       $starIcon.classList.replace('far', 'fas')
@@ -44,61 +46,22 @@ export class TaskUI {
     }
   }
 
-  renderTasks({ tasks = [], query, filterOption, sortOption, handlers }) {
-    const hasTasks = tasks.length > 0
-    this.toggleEmptyTask(!hasTasks)
-    if (!hasTasks) return
-
-    this.#clearTasks()
-
-    this.#processTasks({
-      tasks,
-      query,
-      filterOption,
-      sortOption,
-    }).forEach((it) =>
-      this.$container.prepend(this.#createTaskElement(it, handlers))
-    )
-  }
-
   toggleEmptyTask(isVisible) {
     this.$emptyTask.classList.toggle('hidden', !isVisible)
   }
 
-  #processTasks({ tasks, query, filterOption, sortOption }) {
-    let processedTasks = [...tasks]
+  renderTasks(tasks, handlers) {
+    this.#clearTasks()
 
-    if (query) {
-      processedTasks = processedTasks.filter((task) =>
-        task.text.toLowerCase().includes(query.toLowerCase())
-      )
-    }
+    const hasTasks = tasks && tasks.length > 0
+    this.toggleEmptyTask(!hasTasks)
 
-    switch (filterOption) {
-      case 'completed':
-        processedTasks = processedTasks.filter((task) => task.completed)
-        break
-      case 'pending':
-        processedTasks = processedTasks.filter((task) => !task.completed)
-        break
-    }
+    if (!hasTasks) return
 
-    switch (sortOption) {
-      case 'oldest':
-        processedTasks.sort((a, b) => b.id - a.id)
-        break
-      case 'importance':
-        processedTasks.sort((a, b) => {
-          if (a.importance === b.importance) return 0
-          return a.importance ? 1 : -1
-        })
-        break
-      default: // newest
-        processedTasks.sort((a, b) => a.id - b.id)
-        break
-    }
-
-    return processedTasks
+    tasks.forEach((it) => {
+      const $task = this.#createTaskElement(it, handlers)
+      this.$container.prepend($task)
+    })
   }
 
   #clearTasks() {

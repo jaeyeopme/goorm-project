@@ -58,13 +58,12 @@ export class EventHandler {
   }
 
   #renderTasks() {
-    this.taskUI.renderTasks({
-      tasks: this.taskManager.getTasks(),
+    const searchedTasks = this.taskManager.searchTasks({
       query: this.$searchInput.value,
-      filterOption: this.$filterSelect.value.trim(),
+      filterOption: this.$filterSelect.value,
       sortOption: this.$sortSelect.value,
-      handlers: this.#getTaskEventCallbacks(),
     })
+    this.taskUI.renderTasks(searchedTasks, this.#getTaskEventCallbacks())
   }
 
   #getTaskEventCallbacks() {
