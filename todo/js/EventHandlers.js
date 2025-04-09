@@ -67,6 +67,23 @@ export class EventHandler {
       this.taskUI.removeEmptyTask()
       closeAddTaskModal()
     })
+
+    // Filter tasks
+    const $filterSelect = document.getElementById('filter-select')
+    $filterSelect.addEventListener('change', (e) => {
+      const filter = e.target.value
+      const tasks = this.taskManager.getTasks()
+      this.taskUI.clearTasks()
+      if (filter === 'all') {
+        this.taskUI.renderTasks(tasks, this.#getEventCallbacks())
+        return
+      }
+      const filteredTasks = tasks.filter((task) => {
+        if (filter === 'completed') return task.completed === true
+        if (filter === 'pending') return task.completed === false
+      })
+      this.taskUI.renderTasks(filteredTasks, this.#getEventCallbacks())
+    })
   }
 
   #getEventCallbacks() {
