@@ -45,14 +45,14 @@ export class TaskUI {
   }
 
   renderTasks(tasks, handlers) {
-    if (tasks.length === 0) {
-      this.addEmptyTask()
-      return
-    }
     tasks.forEach((task) => {
       const $task = this.#createTaskElement(task, handlers)
       this.$container.prepend($task)
     })
+  }
+
+  clearTasks() {
+    this.$container.querySelectorAll('.task').forEach(($task) => $task.remove())
   }
 
   addEmptyTask() {
@@ -66,7 +66,7 @@ export class TaskUI {
   #createTaskElement(task, handlers) {
     const $task = document.createElement('div')
     $task.id = `task-${task.id}`
-    $task.className = `border-b pt-3 pb-3 w-full gap-2 flex items-center ${
+    $task.className = `task border-b pt-3 pb-3 w-full gap-2 flex items-center ${
       task.completed ? 'bg-gray-50' : ''
     }`
 

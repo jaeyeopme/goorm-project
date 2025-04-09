@@ -47,6 +47,13 @@ export class TaskManager {
     this.#saveTasks()
   }
 
+  searchTasks(query) {
+    if (!query) return this.tasks
+    return this.tasks.filter((task) =>
+      task.text.toLowerCase().includes(query.toLowerCase())
+    )
+  }
+
   getTasks() {
     return this.tasks
   }

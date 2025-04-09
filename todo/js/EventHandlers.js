@@ -12,6 +12,11 @@ export class EventHandler {
   #setupTasks() {
     const tasks = this.taskManager.getTasks()
     this.taskUI.renderTasks(tasks, this.#getEventCallbacks())
+    if (tasks.length === 0) {
+      this.taskUI.addEmptyTask()
+    } else {
+      this.taskUI.removeEmptyTask()
+    }
   }
 
   #setupEventListeners() {
@@ -23,30 +28,45 @@ export class EventHandler {
     const $cancelButton = document.getElementById('cancel-button')
     const $modalCloseButton = document.getElementById('modal-close')
 
+    const $searchInput = document.getElementById('search-input')
+
+    // Search tasks
+    $searchInput.addEventListener('input', (e) => {
+      const query = e.target.value.trim()
+      const tasks = this.taskManager.searchTasks(query)
+      this.taskUI.clearTasks()
+      this.taskUI.renderTasks(tasks, this.#getEventCallbacks())
+    })
+
+    // Open add task modal
     $addButton.addEventListener('click', () => {
       $taskFormContainer.classList.remove('hidden')
       $taskInput.focus()
     })
 
-    const hiddenTaskForm = () => {
+    // Close add task modal
+    const closeAddTaskModal = () => {
       $taskInput.value = ''
       $taskFormContainer.classList.add('hidden')
     }
 
+    // Close modal on outside click
+    window.addEventListener('click', (e) => {
+      if (e.target === $taskFormContainer) closeAddTaskModal()
+    })
+    $modalCloseButton.addEventListener('click', closeAddTaskModal)
+    $cancelButton.addEventListener('click', closeAddTaskModal)
+
+    // Add task form submission
     $taskForm.addEventListener('submit', (e) => {
       e.preventDefault()
       const text = $taskInput.value.trim()
       if (!text) return
-
       const task = this.taskManager.addTask(text)
       this.taskUI.addTask(task, this.#getEventCallbacks())
-
-      hiddenTaskForm()
-      this.#setEmptyTask()
+      this.taskUI.removeEmptyTask()
+      closeAddTaskModal()
     })
-
-    $modalCloseButton.addEventListener('click', hiddenTaskForm)
-    $cancelButton.addEventListener('click', hiddenTaskForm)
   }
 
   #getEventCallbacks() {
@@ -65,20 +85,14 @@ export class EventHandler {
       onDelete: (id) => {
         this.taskManager.deleteTask(id)
         this.taskUI.removeTask(id)
-        this.#setEmptyTask()
+        if (this.taskManager.isEmpty()) {
+          this.taskUI.addEmptyTask()
+        }
       },
       onUpdate: (id, newText) => {
         this.taskManager.updateTask(id, newText)
         this.taskUI.updateTaskText(id, newText)
       },
     }
-  }
-
-  #setEmptyTask() {
-    if (!this.taskManager.isEmpty()) {
-      this.taskUI.removeEmptyTask()
-      return
-    }
-    this.taskUI.addEmptyTask()
   }
 }
