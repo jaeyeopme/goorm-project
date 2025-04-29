@@ -1,0 +1,9 @@
+@font-face {
+  font-family: 'Netflix Sans';
+  src: url(components/fonts/NetflixSans-Medium.otf);
+}
+
+#root {
+  font-family: 'Netflix Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  background: #111;
+}
