@@ -1,0 +1,51 @@
+.movie-slider-header {
+  display: flex;
+  justify-content: space-between;
+  margin-right: 20px;
+  padding: 10px 0;
+  align-items: center;
+  color: white;
+}
+
+.movie-slider-title {
+  padding-left: 20px;
+  font-size: 1.5em;
+}
+
+.movie-slider-sort-controls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.movie-slider-posters {
+  display: flex;
+  overflow-y: hidden;
+  padding: 25px 0;
+  scroll-behavior: smooth;
+  transition: opacity 0.3s ease;
+}
+
+.movie-slider-posters::-webkit-scrollbar {
+  display: none;
+}
+
+.movie-slider-poster {
+  width: 100%;
+  object-fit: contain;
+  max-height: 155px;
+  margin-left: 20px;
+
+  transition: transform 300ms;
+  cursor: pointer;
+}
+
+.movie-slider-poster:hover {
+  transform: scale(1.12);
+  opacity: 1;
+}
+
+.movie-slider-poster.large {
+  max-height: 370px;
+  margin-left: 45px;
+}
