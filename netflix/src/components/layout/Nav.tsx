@@ -20,17 +20,15 @@ const Nav = () => {
   }, [])
 
   return (
-    <div>
-      <nav className={`nav ${isScrolled ? 'nav-scrolled' : ''}`}>
-        <img className='nav-logo' src={logo} alt='logo' />
-        <input
-          type='text'
-          className='nav-search'
-          placeholder='영화를 검색해주세요.'
-        />
-        <img className='nav-avatar' src={avatar} alt='avatar' />
-      </nav>
-    </div>
+    <nav className={`nav ${isScrolled ? 'nav-scrolled' : ''}`}>
+      <img className='nav-logo' src={logo} alt='logo' />
+      <input
+        type='text'
+        className='nav-search'
+        placeholder='영화를 검색해주세요.'
+      />
+      <img className='nav-avatar' src={avatar} alt='avatar' />
+    </nav>
   )
 }
 

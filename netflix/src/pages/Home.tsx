@@ -1,11 +1,7 @@
-import './Home.css'
+import Banner from '../components/home/Banner'
 
 const Home = () => {
-  return (
-    <div>
-      <main className='main'></main>
-    </div>
-  )
+  return <Banner />
 }
 
 export default Home
