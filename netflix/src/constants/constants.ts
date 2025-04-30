@@ -1,11 +1,6 @@
-import {
-  BannerButtons,
-  Categories,
-  Endpoints,
-  SortButtons,
-} from '../types/types'
+import { Category, CategoryKey, EndpointKey, SortButton } from '../types/types'
 
-export const endpoints: Endpoints = {
+export const endpoints: Record<EndpointKey, string> = {
   NOW_PLAYING: 'movie/now_playing',
   NETFLIX_ORIGINALS: '/discover/tv?with_networks=213',
   TRENDING: '/trending/all/week',
@@ -17,37 +12,63 @@ export const endpoints: Endpoints = {
   DOCUMENTARIES: '/discover/movie?with_genres=99',
 } as const
 
-export const categories: Categories = {
+const defaultSortButton: SortButton = {
+  text: '기본순',
+  className: 'sort-btn',
+  sortOption: 'DEFAULT',
+}
+const popularitySortButton: SortButton = {
+  text: '인기순',
+  className: 'sort-btn',
+  sortOption: 'POPULARITY',
+}
+const releaseDateSortButton: SortButton = {
+  text: '최신순',
+  className: 'sort-btn',
+  sortOption: 'RELEASE_DATE',
+}
+const ratingsSortButton: SortButton = {
+  text: '평점순',
+  className: 'sort-btn',
+  sortOption: 'VOTE_AVERAGE',
+}
+
+const netflixSortButtons = [defaultSortButton, popularitySortButton]
+const trendingSortButtons = [
+  defaultSortButton,
+  popularitySortButton,
+  releaseDateSortButton,
+]
+const moviesSortButtons = [
+  defaultSortButton,
+  releaseDateSortButton,
+  ratingsSortButton,
+]
+
+export const categories: Record<CategoryKey, Category> = {
   NETFLIX_ORIGINALS: {
     title: 'Netflix Originals',
     endpoint: endpoints.NOW_PLAYING,
+    sortButtons: netflixSortButtons,
   },
   TRENDING_NOW: {
     title: 'Trending Now',
     endpoint: endpoints.NETFLIX_ORIGINALS,
+    sortButtons: trendingSortButtons,
   },
   TOP_RATED: {
     title: 'Top Rated',
     endpoint: endpoints.TRENDING,
+    sortButtons: moviesSortButtons,
   },
   ACTION_MOVIES: {
     title: 'Action Movies',
     endpoint: endpoints.ACTION_MOVIES,
+    sortButtons: moviesSortButtons,
   },
   COMEDY_MOVIES: {
     title: 'Comedy Movies',
     endpoint: endpoints.COMEDY_MOVIES,
+    sortButtons: moviesSortButtons,
   },
-} as const
-
-export const sortButtons: SortButtons = {
-  DEFAULT: { text: '기본순', className: 'sort-btn', isActive: true },
-  POPULARITY: { text: '인기순', className: 'sort-btn' },
-  RELEASE_DATE: { text: '최신순', className: 'sort-btn' },
-  VOTE_AVERAGE: { text: '평점순', className: 'sort-btn' },
-} as const
-
-export const bannerButtons: BannerButtons = {
-  PLAY: { text: 'play', className: 'banner-btn play' },
-  INFO: { text: 'more information', className: 'banner-btn info' },
 } as const

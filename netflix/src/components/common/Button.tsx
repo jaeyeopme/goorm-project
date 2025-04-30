@@ -1,13 +1,11 @@
 import { BannerButton, SortButton } from '../../types/types'
 import './Button.css'
 
-const Button = ({
-  text,
-  isActive = false,
-  className,
-}: SortButton | BannerButton) => {
+type Props = SortButton | BannerButton
+
+const Button = ({ text, className, onClick }: Props) => {
   return (
-    <button className={`${className} ${isActive ? 'active' : ''}`}>
+    <button onClick={onClick} className={className}>
       {text}
     </button>
   )

@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { categories } from '../../constants/constants'
 import theMovieAPI from '../../services/api'
-import { Category, Movie } from '../../types/types'
+import { Category, Movie, SortOption } from '../../types/types'
+import Button from '../common/Button'
 import './MovieSlider.css'
 
 interface Props {
@@ -9,17 +10,29 @@ interface Props {
 }
 
 const MovieSlider = ({ category }: Props) => {
+  const [defaultMovies, setDefaultMovies] = useState<Movie[]>([])
   const [movies, setMovies] = useState<Movie[]>([])
   const [error, setError] = useState<string | null>(null)
+  const [sortOption, setSortOption] = useState<SortOption>('DEFAULT')
+  const [isSorting, setIsSorting] = useState(false)
+  const sliderRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const fetchMovies = async () => {
       try {
         const response = await theMovieAPI.get(category.endpoint)
-        setMovies(response.data.results)
+        const movies: Movie[] = response.data.results.map((movie: Movie) => ({
+          ...movie,
+          release_date: movie.release_date
+            ? new Date(movie.release_date)
+            : new Date(),
+        }))
+
+        setMovies(movies)
+        setDefaultMovies(movies)
       } catch (error) {
         if (error instanceof Error)
-          setError(`Banner movie fetch error: ${error.message}`)
+          setError(`Slider movie fetch error: ${error.message}`)
       }
     }
 
@@ -27,6 +40,41 @@ const MovieSlider = ({ category }: Props) => {
   }, [category.endpoint])
 
   if (error) return <p>영화 정보를 불러오는 데 실패했습니다.</p>
+
+  const handleSortButtonClick = (option: SortOption) => {
+    if (sortOption === option) return
+
+    if (sliderRef.current && sliderRef.current.scrollLeft > 0)
+      sliderRef.current.scrollLeft = 0
+
+    setIsSorting(true)
+    setSortOption(option)
+
+    setTimeout(() => {
+      if (option === 'DEFAULT') {
+        setMovies(defaultMovies)
+      } else {
+        const sortedMovies = [...defaultMovies].sort((a, b) => {
+          switch (option) {
+            case 'POPULARITY':
+              return b.popularity - a.popularity
+            case 'RELEASE_DATE':
+              return b.release_date.getTime() - a.release_date.getTime()
+            case 'VOTE_AVERAGE':
+              return b.vote_average - a.vote_average
+            default:
+              return 0
+          }
+        })
+
+        setMovies(sortedMovies)
+      }
+
+      setTimeout(() => {
+        setIsSorting(false)
+      }, 150)
+    }, 300)
+  }
 
   return (
     <>
@@ -42,9 +90,24 @@ const MovieSlider = ({ category }: Props) => {
         >
           {category.title}
         </h2>
-        <div className='movie-slider-sort-controls'></div>
+        <div className='movie-slider-sort-controls'>
+          {category.sortButtons.map((it) => (
+            <Button
+              key={it.text}
+              text={it.text}
+              className={
+                sortOption === it.sortOption ? 'sort-btn active' : 'sort-btn'
+              }
+              onClick={() => handleSortButtonClick(it.sortOption ?? 'DEFAULT')}
+            />
+          ))}
+        </div>
       </div>
-      <div className='movie-slider-posters'>
+      <div
+        ref={sliderRef}
+        className='movie-slider-posters'
+        style={{ opacity: isSorting ? 0.5 : 1 }}
+      >
         {movies.map((movie) => (
           <img
             key={movie.id}

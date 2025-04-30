@@ -1,4 +1,4 @@
-type EndpointKey =
+export type EndpointKey =
   | 'NOW_PLAYING'
   | 'NETFLIX_ORIGINALS'
   | 'TRENDING'
@@ -9,25 +9,20 @@ type EndpointKey =
   | 'ROMANCE_MOVIES'
   | 'DOCUMENTARIES'
 
-type CategoryKey =
+export type CategoryKey =
   | 'NETFLIX_ORIGINALS'
   | 'TRENDING_NOW'
   | 'TOP_RATED'
   | 'ACTION_MOVIES'
   | 'COMEDY_MOVIES'
 
+export type BannerButtonKey = 'PLAY' | 'INFO'
+
 export interface Category {
   title: string
   endpoint: string
+  sortButtons: SortButton[]
 }
-
-export type Endpoints = {
-  [key in EndpointKey]: string
-}
-
-type SortButtonKey = 'DEFAULT' | 'POPULARITY' | 'RELEASE_DATE' | 'VOTE_AVERAGE'
-
-type BannerButtonKey = 'PLAY' | 'INFO'
 
 interface ButtonBase {
   text: string
@@ -35,26 +30,21 @@ interface ButtonBase {
   onClick?: () => void
 }
 
-export type SortButtons = {
-  [key in SortButtonKey]: SortButton
-}
-
-export type BannerButtons = {
-  [key in BannerButtonKey]: BannerButton
-}
+export type SortOption =
+  | 'DEFAULT'
+  | 'POPULARITY'
+  | 'RELEASE_DATE'
+  | 'VOTE_AVERAGE'
 
 export interface SortButton extends ButtonBase {
   text: '기본순' | '인기순' | '최신순' | '평점순'
-  className: 'sort-btn'
+  className: 'sort-btn' | 'sort-btn active'
+  sortOption?: SortOption
 }
 
 export interface BannerButton extends ButtonBase {
   text: 'play' | 'more information'
   className: 'banner-btn play' | 'banner-btn info'
-}
-
-export type Categories = {
-  [key in CategoryKey]: Category
 }
 
 export interface Movie {

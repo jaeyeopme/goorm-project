@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { bannerButtons, endpoints } from '../../constants/constants'
+import { endpoints } from '../../constants/constants'
 import theMovieAPI from '../../services/api'
 import { Movie } from '../../types/types'
 import Button from '../common/Button'
@@ -14,14 +14,14 @@ const truncateString = (str: string, n: number) => {
 }
 
 const Banner = () => {
-  const [movie, setMovie] = useState<Movie>({} as Movie)
+  const [movie, setMovie] = useState<Movie | null>(null)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchMovie = async () => {
       try {
         const response = await theMovieAPI.get(endpoints.NOW_PLAYING)
-        const movies = response.data.results
+        const movies: Movie[] = response.data.results
         const randomNumber = generateRandomNumber(movies?.length)
         const randomMovie = movies[randomNumber]
 
@@ -49,11 +49,11 @@ const Banner = () => {
           {movie?.title || movie?.name || movie?.original_name}
         </h1>
         <div className='banner-buttons'>
-          <Button {...bannerButtons.PLAY} />
-          <Button {...bannerButtons.INFO} />
+          <Button text='play' className='banner-btn play' />
+          <Button text='more information' className='banner-btn info' />
         </div>
         <h1 className='banner-description'>
-          {truncateString(movie?.overview, 100)}
+          {truncateString(movie?.overview ?? '', 100)}
         </h1>
       </div>
       <div className='banner-fadeBottom' />
