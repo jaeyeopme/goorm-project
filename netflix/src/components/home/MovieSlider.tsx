@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
-import { categories } from '../../constants/api'
+import { categories } from '../../constants/constants'
 import theMovieAPI from '../../services/api'
-import { Category } from '../../types/api.types'
-import { Movie } from '../../types/components.types'
+import { Category, Movie } from '../../types/types'
 import './MovieSlider.css'
 
 interface Props {

@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
-import { endpoints } from '../../constants/api'
+import { bannerButtons, endpoints } from '../../constants/constants'
 import theMovieAPI from '../../services/api'
-import { Movie } from '../../types/components.types'
+import { Movie } from '../../types/types'
+import Button from '../common/Button'
 import './Banner.css'
 
 const generateRandomNumber = (max: number) => {
@@ -19,7 +20,7 @@ const Banner = () => {
   useEffect(() => {
     const fetchMovie = async () => {
       try {
-        const response = await theMovieAPI.get(endpoints.nowPlaying)
+        const response = await theMovieAPI.get(endpoints.NOW_PLAYING)
         const movies = response.data.results
         const randomNumber = generateRandomNumber(movies?.length)
         const randomMovie = movies[randomNumber]
@@ -48,8 +49,8 @@ const Banner = () => {
           {movie?.title || movie?.name || movie?.original_name}
         </h1>
         <div className='banner-buttons'>
-          <button className='banner-button play'>play</button>
-          <button className='banner-button info'>more information</button>
+          <Button {...bannerButtons.PLAY} />
+          <Button {...bannerButtons.INFO} />
         </div>
         <h1 className='banner-description'>
           {truncateString(movie?.overview, 100)}

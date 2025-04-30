@@ -1,6 +1,6 @@
 import Banner from '../components/home/Banner'
 import MovieSlider from '../components/home/MovieSlider'
-import { categories } from '../constants/api'
+import { categories } from '../constants/constants'
 
 const Home = () => {
   return (

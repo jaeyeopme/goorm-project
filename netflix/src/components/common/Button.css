@@ -1,0 +1,66 @@
+.sort-btn {
+  background-color: rgba(30, 30, 30, 0.7);
+  padding: 5px 12px;
+
+  color: #b3b3b3;
+  font-size: 13px;
+
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+  letter-spacing: 0.2px;
+}
+
+.sort-btn:hover {
+  background-color: rgba(60, 60, 60, 0.8);
+  color: #fff;
+  transform: translateY(-0.8px);
+}
+
+.sort-btn:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.sort-btn.active {
+  background-color: rgba(229, 9, 20, 0.8);
+  border-color: rgba(229, 9, 20, 0.9);
+  color: white;
+}
+
+.banner-btn {
+  padding: 0.4rem 1.8rem 0.4rem 1rem;
+  margin-right: 1rem;
+
+  font-size: 1rem;
+  font-weight: 700;
+
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  text-transform: inherit;
+}
+
+.banner-btn.play {
+  background-color: white;
+  color: black;
+}
+
+.banner-btn.info {
+  background-color: rgba(109, 109, 110, 0.7);
+  color: white;
+}
+
+.banner-btn:hover {
+  color: #000;
+  background-color: rgba(170, 170, 170, 0.9);
+  transition: all 0.2s;
+}
+
+.banner-btn.info:hover {
+  background-color: rgba(74, 74, 74);
+  color: white;
+}
