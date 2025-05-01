@@ -18,7 +18,7 @@ const Banner = () => {
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    const fetchMovie = async () => {
+    const fetchMovies = async () => {
       try {
         const response = await theMovieAPI.get(endpoints.NOW_PLAYING)
         const movies: Movie[] = response.data.results
@@ -32,10 +32,13 @@ const Banner = () => {
       }
     }
 
-    fetchMovie()
+    fetchMovies()
   }, [])
 
-  if (error) return <p>영화 정보를 불러오는 데 실패했습니다.</p>
+  if (error) {
+    console.error(error)
+    return <p>영화 정보를 불러오는 데 실패했습니다.</p>
+  }
 
   return (
     <header

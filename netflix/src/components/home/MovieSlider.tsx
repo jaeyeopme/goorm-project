@@ -3,6 +3,7 @@ import { categories } from '../../constants/constants'
 import theMovieAPI from '../../services/api'
 import { Category, Movie, SortOption } from '../../types/types'
 import Button from '../common/Button'
+import Modal from './Modal'
 import './MovieSlider.css'
 
 interface Props {
@@ -16,6 +17,14 @@ const MovieSlider = ({ category }: Props) => {
   const [sortOption, setSortOption] = useState<SortOption>('DEFAULT')
   const [isSorting, setIsSorting] = useState(false)
   const sliderRef = useRef<HTMLDivElement>(null)
+
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+  const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null)
+
+  const handleMovieClick = (movie: Movie) => {
+    setSelectedMovie(movie)
+    setIsModalOpen(true)
+  }
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -39,7 +48,10 @@ const MovieSlider = ({ category }: Props) => {
     fetchMovies()
   }, [category.endpoint])
 
-  if (error) return <p>영화 정보를 불러오는 데 실패했습니다.</p>
+  if (error) {
+    console.error(error)
+    return <p>영화 정보를 불러오는 데 실패했습니다.</p>
+  }
 
   const handleSortButtonClick = (option: SortOption) => {
     if (sortOption === option) return
@@ -120,9 +132,17 @@ const MovieSlider = ({ category }: Props) => {
                 : movie.backdrop_path
             }`}
             alt={movie.name || movie.title || ''}
+            onClick={() => handleMovieClick(movie)}
           />
         ))}
       </div>
+
+      {isModalOpen && (
+        <Modal
+          selectedMovie={selectedMovie as Movie}
+          setIsModalOpen={setIsModalOpen}
+        />
+      )}
     </>
   )
 }

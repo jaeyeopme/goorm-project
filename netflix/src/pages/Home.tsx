@@ -4,12 +4,12 @@ import { categories } from '../constants/constants'
 
 const Home = () => {
   return (
-    <>
+    <main>
       <Banner />
       {Object.entries(categories).map(([key, category]) => (
         <MovieSlider key={key} category={category} />
       ))}
-    </>
+    </main>
   )
 }
 
