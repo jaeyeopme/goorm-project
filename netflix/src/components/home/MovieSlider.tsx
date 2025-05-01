@@ -18,12 +18,12 @@ const MovieSlider = ({ category }: Props) => {
   const [isSorting, setIsSorting] = useState(false)
   const sliderRef = useRef<HTMLDivElement>(null)
 
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+  const [isSelected, setIsSelected] = useState<boolean>(false)
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null)
 
   const handleMovieClick = (movie: Movie) => {
     setSelectedMovie(movie)
-    setIsModalOpen(true)
+    setIsSelected(true)
   }
 
   useEffect(() => {
@@ -137,10 +137,10 @@ const MovieSlider = ({ category }: Props) => {
         ))}
       </div>
 
-      {isModalOpen && (
+      {isSelected && (
         <Modal
           selectedMovie={selectedMovie as Movie}
-          setIsModalOpen={setIsModalOpen}
+          setIsModalOpen={setIsSelected}
         />
       )}
     </>

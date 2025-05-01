@@ -58,4 +58,15 @@ export interface Movie {
   popularity: number
   release_date: Date
   vote_average: number
+  videos?: Videos
+}
+
+export interface Video {
+  key: string
+  type: string
+  site: string
+}
+
+export interface Videos {
+  results: Video[]
 }
