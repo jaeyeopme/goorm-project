@@ -51,11 +51,8 @@
   margin-left: 45px;
 }
 
-@media screen and (max-width: 768px) {
-  .movie-slider__title {
-    font-size: 1.3em;
-  }
-
+/* 태블릿 화면 (768px ~ 991px) */
+@media screen and (max-width: 991px) {
   .movie-slider__poster {
     max-height: 130px;
     margin-left: 15px;
@@ -63,49 +60,44 @@
 
   .movie-slider__poster.large {
     max-height: 300px;
-    margin-left: 30px;
+    margin-left: 35px;
   }
 
-  .movie-slider__sort-controls {
-    gap: 8px;
+  .movie-slider__posters {
+    padding: 20px 0;
   }
 }
 
-@media screen and (max-width: 480px) {
-  .movie-slider__header {
-    flex-direction: column;
-    align-items: flex-start;
-    margin-right: 10px;
-  }
-
-  .movie-slider__title {
-    font-size: 1.2em;
-    padding-left: 15px;
-  }
-
-  .movie-slider__sort-controls {
-    margin-left: 15px;
-    margin-top: 8px;
-    overflow-x: auto; /* 정렬 버튼이 많을 경우 가로 스크롤 가능하도록 */
-    width: calc(100% - 20px);
-    padding-bottom: 5px;
-  }
-
-  .movie-slider__sort-controls::-webkit-scrollbar {
-    display: none;
-  }
-
+/* 모바일 화면 (768px 이하) */
+@media screen and (max-width: 768px) {
   .movie-slider__poster {
     max-height: 110px;
     margin-left: 10px;
   }
 
   .movie-slider__poster.large {
-    max-height: 220px;
-    margin-left: 20px;
+    max-height: 240px;
+    margin-left: 25px;
   }
 
   .movie-slider__posters {
     padding: 15px 0;
+  }
+}
+
+/* 작은 모바일 화면 (480px 이하) */
+@media screen and (max-width: 480px) {
+  .movie-slider__poster {
+    max-height: 90px;
+    margin-left: 8px;
+  }
+
+  .movie-slider__poster.large {
+    max-height: 180px;
+    margin-left: 15px;
+  }
+
+  .movie-slider__posters {
+    padding: 10px 0;
   }
 }
