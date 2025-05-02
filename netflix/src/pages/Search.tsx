@@ -67,7 +67,7 @@ const Search = () => {
     console.error(error)
     return (
       <div className='search-container'>
-        <div className='search-error'>
+        <div className='search__error'>
           <p>영화 정보를 불러오는 데 실패했습니다.</p>
         </div>
       </div>
@@ -77,9 +77,9 @@ const Search = () => {
   if (isNotFound) {
     return (
       <div className='search-container'>
-        <div className='search-empty'>
-          <p>검색 결과가 없습니다.</p>
-          <p className='search-suggestion'>다른 키워드로 검색해보세요.</p>
+        <div className='search__empty'>
+          <p className='search__empty-text'>검색 결과가 없습니다.</p>
+          <p className='search__suggestion'>다른 키워드로 검색해보세요.</p>
         </div>
       </div>
     )
@@ -88,27 +88,29 @@ const Search = () => {
   return (
     <>
       <div className='search-container'>
-        <div className='search-header'>
-          <h1 className='search-title'>
+        <div className='search__header'>
+          <h1 className='search__title'>
             "{query}"에 대한 검색 결과
             {searchedMovies.length > 0 && (
-              <span className='result-count'>({searchedMovies.length})</span>
+              <span className='search__result-count'>
+                ({searchedMovies.length})
+              </span>
             )}
           </h1>
         </div>
 
         <div className='search-results'>
           {searchedMovies.map((movie) => (
-            <div key={movie.id} className='movie-card'>
+            <div key={movie.id} className='search-results__movie-card'>
               <img
                 onClick={() => openModal(movie)}
                 src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                 alt={movie.title || ''}
-                className='movie-poster'
+                className='search-results__movie-poster'
               />
-              <div className='movie-info'>
-                <h3 className='movie-title'>{movie.title}</h3>
-                <p className='movie-date'>
+              <div className='search-results__movie-info'>
+                <h3 className='search-results__movie-title'>{movie.title}</h3>
+                <p className='search-results__movie-date'>
                   {movie.release_date && movie.release_date.getFullYear()}
                 </p>
               </div>

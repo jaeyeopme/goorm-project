@@ -30,21 +30,21 @@
   font-family: 'Netflix Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-.search-header {
-  margin-bottom: 30px;
-  padding-bottom: 15px;
+.search__header {
+  margin-block-end: 30px;
+  padding-block-end: 15px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.search-title {
+.search__title {
   font-size: clamp(1.5rem, 4vw, 2.5rem);
   font-weight: 700;
   color: var(--netflix-text-main);
   letter-spacing: -0.5px;
 }
 
-.result-count {
-  margin-left: 12px;
+.search__result-count {
+  margin-inline-start: 12px;
   font-size: clamp(1.2rem, 2.5vw, 2rem);
   font-weight: 400;
   color: var(--netflix-text-secondary);
@@ -55,10 +55,10 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 25px;
-  padding-bottom: 80px;
+  padding-block-end: 80px;
 }
 
-.movie-card {
+.search-results__movie-card {
   position: relative;
   border-radius: 4px;
   overflow: hidden;
@@ -69,13 +69,13 @@
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
-.movie-card:hover {
+.search-results__movie-card:hover {
   transform: scale(1.05);
   z-index: 10;
   box-shadow: 0 10px 25px var(--netflix-card-shadow);
 }
 
-.movie-poster {
+.search-results__movie-poster {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -83,8 +83,8 @@
   transition: all 0.3s ease;
 }
 
-.movie-poster.error,
-.movie-poster.no-image {
+.search-results__movie-poster.error,
+.search-results__movie-poster.no-image {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -95,7 +95,7 @@
   padding: 20px;
 }
 
-.movie-info {
+.search-results__movie-info {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -107,11 +107,11 @@
   z-index: 1;
 }
 
-.movie-card:hover .movie-info {
+.search-results__movie-card:hover .search-results__movie-info {
   transform: translateY(0);
 }
 
-.movie-title {
+.search-results__movie-title {
   margin: 0 0 8px 0;
   font-size: 1rem;
   font-weight: 600;
@@ -121,7 +121,7 @@
   text-overflow: ellipsis;
 }
 
-.movie-date {
+.search-results__movie-date {
   margin: 0;
   font-size: 0.9rem;
   color: var(--netflix-text-secondary);
@@ -129,21 +129,21 @@
   align-items: center;
 }
 
-.movie-actions {
+.search-results__movie-actions {
   display: flex;
   gap: 10px;
-  margin-top: 12px;
+  margin-block-start: 12px;
   opacity: 0;
   transform: translateY(10px);
   transition: all 0.3s ease 0.1s;
 }
 
-.movie-card:hover .movie-actions {
+.search-results__movie-card:hover .search-results__movie-actions {
   opacity: 1;
   transform: translateY(0);
 }
 
-.action-btn {
+.search-results__action-btn {
   width: 36px;
   height: 36px;
   border-radius: 50%;
@@ -157,42 +157,13 @@
   transition: all 0.2s ease;
 }
 
-.action-btn:hover {
+.search-results__action-btn:hover {
   background-color: var(--netflix-red);
   border-color: var(--netflix-red);
   transform: scale(1.1);
 }
 
-.loading-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 400px;
-}
-
-.loader {
-  width: 50px;
-  height: 50px;
-  border: 3px solid rgba(255, 255, 255, 0.2);
-  border-top-color: var(--netflix-red);
-  border-radius: 50%;
-  animation: spin 1s infinite linear;
-}
-
-.loading-text {
-  margin-top: 20px;
-  color: var(--netflix-text-secondary);
-  font-size: 1.2rem;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.search-empty {
+.search__empty {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -203,7 +174,7 @@
   max-width: 800px;
 }
 
-.search-empty::before {
+.search__empty::before {
   content: '';
   display: block;
   width: 60px;
@@ -211,23 +182,23 @@
   background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="rgba(170, 170, 170, 0.8)"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>');
   background-repeat: no-repeat;
   background-size: contain;
-  margin-bottom: 20px;
+  margin-block-end: 20px;
   opacity: 0.7;
 }
 
-.search-empty p {
+.search__empty-text {
   margin: 10px 0;
   font-size: 1.5rem;
   color: var(--netflix-text-secondary);
 }
 
-.search-empty .search-suggestion {
+.search__suggestion {
   color: var(--netflix-text-muted);
   font-size: 1.1rem;
-  margin-top: 8px;
+  margin-block-start: 8px;
 }
 
-.search-error {
+.search__error {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -242,7 +213,7 @@
   border: 1px solid rgba(229, 9, 20, 0.3);
 }
 
-.search-error::before {
+.search__error::before {
   content: '';
   display: block;
   width: 60px;
@@ -250,10 +221,10 @@
   background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="rgba(229, 9, 20, 0.8)" viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-11v6h2v-6h-2zm0-4v2h2V7h-2z"/></svg>');
   background-repeat: no-repeat;
   background-size: contain;
-  margin-bottom: 20px;
+  margin-block-end: 20px;
 }
 
-.search-error p {
+.search__error-text {
   margin: 10px 0;
   font-size: 1.3rem;
   color: var(--netflix-text-main);
@@ -277,19 +248,19 @@
     gap: 15px;
   }
 
-  .movie-info {
+  .search-results__movie-info {
     padding: 12px;
   }
 
-  .movie-title {
+  .search-results__movie-title {
     font-size: 0.9rem;
   }
 
-  .movie-actions {
-    margin-top: 8px;
+  .search-results__movie-actions {
+    margin-block-start: 8px;
   }
 
-  .action-btn {
+  .search-results__action-btn {
     width: 30px;
     height: 30px;
     font-size: 0.8rem;
@@ -306,37 +277,69 @@
     gap: 12px;
   }
 
-  .search-error,
-  .search-empty {
+  .search__error,
+  .search__empty {
     height: 300px;
     font-size: 1.2rem;
     padding: 20px;
+  }
+
+  /* 모바일에서는 영화 정보를 항상 표시 */
+  .search-results__movie-info {
+    transform: translateY(0);
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.9) 0%,
+      rgba(0, 0, 0, 0.6) 50%,
+      rgba(0, 0, 0, 0) 100%
+    );
+  }
+
+  .search-results__movie-actions {
+    opacity: 1;
+    transform: none;
   }
 }
 
 /* 접근성 개선 */
 @media (prefers-reduced-motion: reduce) {
-  .movie-card,
-  .movie-poster,
-  .movie-info,
-  .movie-actions,
-  .action-btn {
+  .search-results__movie-card,
+  .search-results__movie-poster,
+  .search-results__movie-info,
+  .search-results__movie-actions,
+  .search-results__action-btn {
     transition: none;
     animation: none;
     transform: none;
   }
 
-  .movie-card:hover {
+  .search-results__movie-card:hover {
     transform: none;
   }
 
-  .loader {
+  .search__loader {
     animation: none;
   }
 }
 
 /* 키보드 포커스 스타일 */
-.movie-card:focus-visible {
-  outline: 2px solid var(--netflix-red);
+.search-results__movie-card:focus-visible {
+  outline: 3px solid var(--netflix-red);
   outline-offset: 2px;
+  transform: scale(1.05);
+}
+
+/* 하이 컨트라스트 모드 지원 */
+@media (forced-colors: active) {
+  .search-results__movie-card {
+    border: 1px solid ButtonText;
+  }
+
+  .search-results__action-btn {
+    border: 2px solid ButtonText;
+  }
+
+  .search__error {
+    border: 2px solid LinkText;
+  }
 }
