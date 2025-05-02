@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import Modal from '../components/home/Modal'
 import { endpoints } from '../constants/constants'
-import { useDebounce } from '../hooks'
+import { useDebounce, useModal } from '../hooks'
 import theMovieAPI from '../services/api'
 import { Movie } from '../types'
 import { hasValidBackdrop } from '../utils'
@@ -14,16 +14,16 @@ const Search = () => {
 
   const [error, setError] = useState<string | null>(null)
   const [isNotFound, setIsNotFound] = useState<boolean>(false)
+
   const [searchedMovies, setSearchedMovies] = useState<Movie[]>([])
   const debouncedQuery = useDebounce<string>(query, 300)
 
-  const [isSelected, setIsSelected] = useState<boolean>(false)
-  const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null)
-
-  const handleMovieClick = (movie: Movie) => {
-    setSelectedMovie(movie)
-    setIsSelected(true)
-  }
+  const {
+    isModalOpen,
+    selectedItem: selectedMovie,
+    openModal,
+    closeModal,
+  } = useModal<Movie>()
 
   useEffect(() => {
     if (debouncedQuery === '') {
@@ -101,7 +101,7 @@ const Search = () => {
           {searchedMovies.map((movie) => (
             <div key={movie.id} className='movie-card'>
               <img
-                onClick={() => handleMovieClick(movie)}
+                onClick={() => openModal(movie)}
                 src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                 alt={movie.title || ''}
                 className='movie-poster'
@@ -117,11 +117,8 @@ const Search = () => {
         </div>
       </div>
 
-      {isSelected && (
-        <Modal
-          selectedMovie={selectedMovie as Movie}
-          setIsModalOpen={setIsSelected}
-        />
+      {isModalOpen && selectedMovie && (
+        <Modal selectedMovie={selectedMovie} closeModal={closeModal} />
       )}
     </>
   )

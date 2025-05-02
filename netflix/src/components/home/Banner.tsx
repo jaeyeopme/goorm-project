@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { endpoints } from '../../constants/constants'
+import { useModal } from '../../hooks'
 import theMovieAPI from '../../services/api'
 import { Movie } from '../../types'
 import {
@@ -13,9 +14,14 @@ import Modal from './Modal'
 
 const Banner = () => {
   const [movie, setMovie] = useState<Movie | null>(null)
-  const [isPlayed, setIsPlayed] = useState<boolean>(false)
-  const [isSelected, setIsSelected] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
+  const {
+    isModalOpen,
+    selectedItem: selectedMovie,
+    isPlayer,
+    openModal,
+    closeModal,
+  } = useModal<Movie>()
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -72,12 +78,12 @@ const Banner = () => {
           </h1>
           <div className='banner-buttons'>
             <Button
-              onClick={() => setIsPlayed(true)}
+              onClick={() => openModal(movie as Movie, true)}
               text='play'
               className='banner-btn play'
             />
             <Button
-              onClick={() => setIsSelected(true)}
+              onClick={() => openModal(movie as Movie)}
               text='more information'
               className='banner-btn info'
             />
@@ -88,14 +94,11 @@ const Banner = () => {
         </div>
         <div className='banner-fadeBottom' />
       </header>
-      {isSelected && (
-        <Modal selectedMovie={movie as Movie} setIsModalOpen={setIsSelected} />
-      )}
-      {isPlayed && (
+      {isModalOpen && selectedMovie && (
         <Modal
-          selectedMovie={movie as Movie}
-          setIsModalOpen={setIsPlayed}
-          isVideo={true}
+          selectedMovie={selectedMovie}
+          closeModal={closeModal}
+          isPlayer={isPlayer}
         />
       )}
       )

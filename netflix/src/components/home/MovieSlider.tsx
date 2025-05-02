@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { categories } from '../../constants/constants'
+import { useModal } from '../../hooks'
 import theMovieAPI from '../../services/api'
 import { Category, Movie, SortOption } from '../../types'
 import Button from '../common/Button'
@@ -18,13 +19,12 @@ const MovieSlider = ({ category }: Props) => {
   const [isSorting, setIsSorting] = useState(false)
   const sliderRef = useRef<HTMLDivElement>(null)
 
-  const [isSelected, setIsSelected] = useState<boolean>(false)
-  const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null)
-
-  const handleMovieClick = (movie: Movie) => {
-    setSelectedMovie(movie)
-    setIsSelected(true)
-  }
+  const {
+    isModalOpen,
+    selectedItem: selectedMovie,
+    openModal,
+    closeModal,
+  } = useModal<Movie>()
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -132,16 +132,13 @@ const MovieSlider = ({ category }: Props) => {
                 : movie.backdrop_path
             }`}
             alt={movie.name || movie.title || ''}
-            onClick={() => handleMovieClick(movie)}
+            onClick={() => openModal(movie)}
           />
         ))}
       </div>
 
-      {isSelected && (
-        <Modal
-          selectedMovie={selectedMovie as Movie}
-          setIsModalOpen={setIsSelected}
-        />
+      {isModalOpen && selectedMovie && (
+        <Modal selectedMovie={selectedMovie} closeModal={closeModal} />
       )}
     </>
   )

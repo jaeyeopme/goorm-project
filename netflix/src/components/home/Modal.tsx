@@ -4,43 +4,41 @@ import './Modal.css'
 
 interface Props {
   selectedMovie: Movie
-  setIsModalOpen: (isOpen: boolean) => void
-  isVideo?: boolean
+  closeModal: () => void
+  isPlayer?: boolean
 }
 
-const Modal = ({ selectedMovie, setIsModalOpen, isVideo = false }: Props) => {
+const Modal = ({ selectedMovie, closeModal, isPlayer = false }: Props) => {
   const modalRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const eventListener = (e: MouseEvent) => {
       const target = e.target as HTMLButtonElement
-      if (modalRef.current && !modalRef.current.contains(target))
-        setIsModalOpen(false)
+      if (modalRef.current && !modalRef.current.contains(target)) closeModal()
     }
-
     document.addEventListener('click', eventListener, true)
 
     return () => document.removeEventListener('click', eventListener, true)
-  }, [modalRef, setIsModalOpen])
+  }, [modalRef, closeModal])
 
   return (
     <div className='modal-overlay'>
       <section
-        className={`modal ${isVideo ? 'modal-video' : 'modal-info'}`}
+        className={`modal ${isPlayer ? 'modal-player' : 'modal-info'}`}
         ref={modalRef}
       >
         <span
-          onClick={() => setIsModalOpen(false)}
+          onClick={() => closeModal()}
           className='modal-close'
           aria-label='닫기'
         >
           X
         </span>
-        {isVideo ? (
+        {isPlayer ? (
           selectedMovie?.videos?.results[0]?.key ? (
             <iframe
               title={`${
-                selectedMovie?.title || selectedMovie?.name || '영화'
+                selectedMovie.title || selectedMovie.name || '영화'
               } 예고편`}
               src={`https://www.youtube.com/embed/${selectedMovie.videos.results[0].key}?autoplay=1&mute=0&controls=1&modestbranding=1&rel=0`}
               allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
@@ -64,10 +62,10 @@ const Modal = ({ selectedMovie, setIsModalOpen, isVideo = false }: Props) => {
                 <span className='modal-percent'>100% for you</span>
                 {selectedMovie.release_date
                   ? selectedMovie.release_date.toLocaleDateString('ko')
-                  : selectedMovie.name}
+                  : ''}
               </p>
               <h2 className='modal-title'>
-                {selectedMovie.title ? selectedMovie.title : selectedMovie.name}
+                {selectedMovie.title || selectedMovie.name || ''}
               </h2>
               <p className='modal-overview'>
                 {' '}

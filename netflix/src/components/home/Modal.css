@@ -129,7 +129,7 @@
 }
 
 /* Video modal styles */
-.modal-video {
+.modal-player {
   display: flex;
   justify-content: center;
   align-items: center;
