@@ -17,19 +17,18 @@ const Modal = ({ selectedMovie, closeModal, isPlayer = false }: Props) => {
       if (modalRef.current && !modalRef.current.contains(target)) closeModal()
     }
     document.addEventListener('click', eventListener, true)
-
     return () => document.removeEventListener('click', eventListener, true)
   }, [modalRef, closeModal])
 
   return (
-    <div className='modal-overlay'>
+    <div className='modal__overlay'>
       <section
-        className={`modal ${isPlayer ? 'modal-player' : 'modal-info'}`}
+        className={`modal ${isPlayer ? 'modal__player' : 'modal__info'}`}
         ref={modalRef}
       >
         <span
           onClick={() => closeModal()}
-          className='modal-close'
+          className='modal__close'
           aria-label='닫기'
         >
           X
@@ -46,32 +45,32 @@ const Modal = ({ selectedMovie, closeModal, isPlayer = false }: Props) => {
               loading='lazy'
             ></iframe>
           ) : (
-            <div className='modal-fallback'>
+            <div className='modal__fallback'>
               <p>예고편을 찾을 수 없습니다.</p>
             </div>
           )
         ) : (
           <>
             <img
-              className='modal-image'
+              className='modal__image'
               src={`https://image.tmdb.org/t/p/original/${selectedMovie.backdrop_path}`}
               alt={selectedMovie.name || selectedMovie.title || ''}
             />
-            <div className='modal-content'>
-              <p className='modal-detail'>
-                <span className='modal-percent'>100% for you</span>
+            <div className='modal__content'>
+              <p className='modal__detail'>
+                <span className='modal__percent'>100% for you</span>
                 {selectedMovie.release_date
                   ? selectedMovie.release_date.toLocaleDateString('ko')
                   : ''}
               </p>
-              <h2 className='modal-title'>
+              <h2 className='modal__title'>
                 {selectedMovie.title || selectedMovie.name || ''}
               </h2>
-              <p className='modal-overview'>
+              <p className='modal__overview'>
                 {' '}
                 평점: {selectedMovie.vote_average}
               </p>
-              <p className='modal-overview'> {selectedMovie.overview}</p>
+              <p className='modal__overview'> {selectedMovie.overview}</p>
             </div>
           </>
         )}

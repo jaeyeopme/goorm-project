@@ -1,5 +1,15 @@
+/* ==========================================================================
+   Netflix 모달 컴포넌트 스타일
+   - BEM 명명 규칙 적용
+   - 접근성 강화
+   - 논리적 그룹화
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   CSS 변수 정의
+   -------------------------------------------------------------------------- */
 :root {
-  /* Color variables */
+  /* 색상 변수 */
   --color-background-primary: #141414;
   --color-background-secondary: #181818;
   --color-text-primary: #ffffff;
@@ -9,127 +19,164 @@
   --color-success: #46d369;
   --color-overlay: rgba(0, 0, 0, 0.7);
 
-  /* Sizing and spacing */
+  /* 크기 및 간격 */
   --modal-max-width: 850px;
-  --modal-padding: 24px 32px;
-  --modal-padding-mobile: 16px 20px;
-  --border-radius: 4px;
+  --modal-padding-large: 24px 32px;
+  --modal-padding-small: 16px 20px;
+  --modal-border-radius: 4px;
+  --modal-close-size: 36px;
 
-  /* Animation variables */
-  --animation-timing: 0.3s ease;
+  /* 애니메이션 */
+  --animation-duration: 0.3s;
+  --animation-timing: ease;
 }
 
-/* Modal overlay - background behind the modal */
-.modal-overlay {
+/* --------------------------------------------------------------------------
+     모달 오버레이 (배경)
+     -------------------------------------------------------------------------- */
+.modal__overlay {
+  /* 위치 및 크기 */
   position: fixed;
-  inset: 0; /* Replaces top, right, bottom, left: 0 */
-  background-color: var(--color-overlay);
+  inset: 0;
+  z-index: 1000;
+
+  /* 디스플레이 */
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
-  animation: fadeIn var(--animation-timing);
+
+  /* 외관 */
+  background-color: var(--color-overlay);
+
+  /* 애니메이션 */
+  animation: modal-fade-in var(--animation-duration) var(--animation-timing);
 }
 
-/* Main modal container */
+/* --------------------------------------------------------------------------
+     모달 기본 컨테이너
+     -------------------------------------------------------------------------- */
 .modal {
+  /* 위치 및 크기 */
   position: relative;
   width: var(--modal-max-width);
   max-width: 90vw;
   max-height: 80vh;
-  background-color: var(--color-background-primary);
-  border-radius: var(--border-radius);
-  overflow: hidden;
-  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4);
-  animation: modalSlideUp 0.4s ease;
+
+  /* 디스플레이 */
   display: flex;
   flex-direction: column;
+
+  /* 외관 */
+  background-color: var(--color-background-primary);
+  border-radius: var(--modal-border-radius);
+  overflow: hidden;
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4);
+
+  /* 애니메이션 */
+  animation: modal-slide-up 0.4s var(--animation-timing);
 }
 
-/* Close button */
-.modal-close {
+/* --------------------------------------------------------------------------
+     모달 닫기 버튼
+     -------------------------------------------------------------------------- */
+.modal__close {
+  /* 위치 및 크기 */
   position: absolute;
   top: 15px;
   right: 15px;
-  width: 36px;
-  height: 36px;
+  width: var(--modal-close-size);
+  height: var(--modal-close-size);
+  z-index: 10;
+
+  /* 디스플레이 */
   display: flex;
   align-items: center;
   justify-content: center;
+
+  /* 외관 */
   background-color: var(--color-background-secondary);
   color: var(--color-text-primary);
   border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.2);
   font-size: 18px;
   font-weight: bold;
   cursor: pointer;
-  z-index: 10;
-  transition: all 0.2s ease;
-  border: 2px solid rgba(255, 255, 255, 0.2);
 
-  /* Improved accessibility for focus state */
-  &:focus-visible {
-    outline: 2px solid var(--color-text-primary);
-    outline-offset: 2px;
-  }
+  /* 애니메이션 */
+  transition: all 0.2s var(--animation-timing);
 
-  &:hover {
-    background-color: var(--color-accent);
-    border-color: var(--color-accent);
-    transform: scale(1.1);
-  }
+  /* 텍스트 중앙 정렬 개선 */
+  line-height: 0;
+  padding-bottom: 2px; /* X가 시각적으로 중앙에 오도록 미세 조정 */
+  text-align: center;
 }
 
-/* Modal info section */
-.modal-info {
+.modal__close:focus-visible {
+  outline: 2px solid var(--color-text-primary);
+  outline-offset: 2px;
+}
+
+.modal__close:hover {
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
+  transform: scale(1.1);
+}
+
+/* --------------------------------------------------------------------------
+     모달 정보 영역
+     -------------------------------------------------------------------------- */
+.modal__info {
   display: flex;
   flex-direction: column;
-
-  & .modal-image {
-    width: 100%;
-    height: 400px;
-    object-fit: cover;
-    object-position: center 20%;
-    background-color: #000;
-  }
-
-  & .modal-content {
-    padding: var(--modal-padding);
-    overflow-y: auto;
-    color: var(--color-text-primary);
-    flex: 1;
-  }
-
-  & .modal-title {
-    font-size: clamp(1.3rem, 4vw, 1.8rem);
-    font-weight: 700;
-    margin-block: 0.5rem 1rem;
-    line-height: 1.2;
-  }
-
-  & .modal-detail {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 0.95rem;
-    color: var(--color-text-muted);
-    margin-bottom: 0.8rem;
-  }
-
-  & .modal-percent {
-    color: var(--color-success);
-    font-weight: 700;
-  }
-
-  & .modal-overview {
-    line-height: 1.5;
-    margin-bottom: 0.8rem;
-    color: var(--color-text-secondary);
-    font-size: 0.95rem;
-  }
 }
 
-/* Video modal styles */
-.modal-player {
+.modal__image {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  object-position: center 20%;
+  background-color: #000;
+}
+
+.modal__content {
+  padding: var(--modal-padding-large);
+  overflow-y: auto;
+  color: var(--color-text-primary);
+  flex: 1;
+}
+
+.modal__title {
+  font-size: clamp(1.3rem, 4vw, 1.8rem);
+  font-weight: 700;
+  margin-block: 0.5rem 1rem;
+  line-height: 1.2;
+}
+
+.modal__detail {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+  margin-bottom: 0.8rem;
+}
+
+.modal__percent {
+  color: var(--color-success);
+  font-weight: 700;
+}
+
+.modal__overview {
+  line-height: 1.5;
+  margin-bottom: 0.8rem;
+  color: var(--color-text-secondary);
+  font-size: 0.95rem;
+}
+
+/* --------------------------------------------------------------------------
+     모달 비디오 플레이어
+     -------------------------------------------------------------------------- */
+.modal__player {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -139,19 +186,19 @@
   padding: 0;
   box-sizing: border-box;
   overflow: hidden;
-
-  & iframe {
-    width: var(--modal-max-width);
-    aspect-ratio: 16 / 9;
-    max-width: 100%;
-    border: none;
-    display: block;
-    background-color: #000;
-    margin: 0;
-  }
 }
 
-.modal-fallback {
+.modal__player iframe {
+  width: var(--modal-max-width);
+  aspect-ratio: 16 / 9;
+  max-width: 100%;
+  border: none;
+  display: block;
+  background-color: #000;
+  margin: 0;
+}
+
+.modal__fallback {
   width: var(--modal-max-width);
   aspect-ratio: 16 / 9;
   max-width: 100%;
@@ -164,8 +211,10 @@
   margin: 0;
 }
 
-/* Animations */
-@keyframes fadeIn {
+/* --------------------------------------------------------------------------
+     애니메이션
+     -------------------------------------------------------------------------- */
+@keyframes modal-fade-in {
   from {
     opacity: 0;
   }
@@ -174,7 +223,7 @@
   }
 }
 
-@keyframes modalSlideUp {
+@keyframes modal-slide-up {
   from {
     opacity: 0;
     transform: translateY(30px);
@@ -185,30 +234,55 @@
   }
 }
 
-/* Media queries for responsive design */
+/* --------------------------------------------------------------------------
+     반응형 디자인
+     -------------------------------------------------------------------------- */
 @media (max-width: 768px) {
-  .modal-info {
-    & .modal-content {
-      padding: var(--modal-padding-mobile);
-    }
-
-    & .modal-image {
-      height: 250px;
-    }
+  .modal__content {
+    padding: var(--modal-padding-small);
   }
 
-  .modal-video iframe,
-  .modal-fallback {
+  .modal__image {
+    height: 250px;
+  }
+
+  .modal__player iframe,
+  .modal__fallback {
     height: 300px;
   }
 }
 
-/* Reduced motion preference support */
+/* 작은 모바일 화면 최적화 */
+@media (max-width: 480px) {
+  .modal__close {
+    top: 10px;
+    right: 10px;
+  }
+
+  .modal__image {
+    height: 200px;
+  }
+
+  .modal__title {
+    font-size: 1.2rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+     접근성 개선
+     -------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
-  .modal-overlay,
+  .modal__overlay,
   .modal,
-  .modal-close {
+  .modal__close {
     animation: none;
     transition: none;
+  }
+}
+
+/* 하이 컨트라스트 모드 대응 */
+@media (forced-colors: active) {
+  .modal__close {
+    border: 2px solid ButtonText;
   }
 }
