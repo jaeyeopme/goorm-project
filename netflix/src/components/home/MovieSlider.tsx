@@ -55,7 +55,6 @@ const MovieSlider = ({ category }: Props) => {
 
   const handleSortButtonClick = (option: SortOption) => {
     if (sortOption === option) return
-
     if (sliderRef.current && sliderRef.current.scrollLeft > 0)
       sliderRef.current.scrollLeft = 0
 
@@ -90,9 +89,9 @@ const MovieSlider = ({ category }: Props) => {
 
   return (
     <>
-      <div className='movie-slider-header'>
+      <div className='movie-slider__header'>
         <h2
-          className='movie-slider-title'
+          className='movie-slider__title'
           style={{
             textTransform:
               category === categories.NETFLIX_ORIGINALS
@@ -102,7 +101,7 @@ const MovieSlider = ({ category }: Props) => {
         >
           {category.title}
         </h2>
-        <div className='movie-slider-sort-controls'>
+        <div className='movie-slider__sort-controls'>
           {category.sortButtons.map((it) => (
             <Button
               key={it.text}
@@ -117,14 +116,14 @@ const MovieSlider = ({ category }: Props) => {
       </div>
       <div
         ref={sliderRef}
-        className='movie-slider-posters'
+        className='movie-slider__posters'
         style={{ opacity: isSorting ? 0.5 : 1 }}
       >
         {movies.map((movie) => (
           <img
             key={movie.id}
-            className={`movie-slider-poster ${
-              category === categories.NETFLIX_ORIGINALS && 'large'
+            className={`movie-slider__poster ${
+              category === categories.NETFLIX_ORIGINALS && ' large'
             }`}
             src={`https://image.tmdb.org/t/p/original${
               category === categories.NETFLIX_ORIGINALS

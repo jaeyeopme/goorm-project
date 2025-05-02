@@ -1,4 +1,4 @@
-.movie-slider-header {
+.movie-slider__header {
   display: flex;
   justify-content: space-between;
   margin-right: 20px;
@@ -7,45 +7,105 @@
   color: white;
 }
 
-.movie-slider-title {
+.movie-slider__title {
   padding-left: 20px;
   font-size: 1.5em;
 }
 
-.movie-slider-sort-controls {
+.movie-slider__sort-controls {
   display: flex;
   gap: 12px;
   align-items: center;
 }
 
-.movie-slider-posters {
+.movie-slider__posters {
   display: flex;
   overflow-y: hidden;
+  overflow-x: auto; /* 가로 스크롤 명시적 허용 */
   padding: 25px 0;
   scroll-behavior: smooth;
   transition: opacity 0.3s ease;
 }
 
-.movie-slider-posters::-webkit-scrollbar {
+.movie-slider__posters::-webkit-scrollbar {
   display: none;
 }
 
-.movie-slider-poster {
+.movie-slider__poster {
   width: 100%;
   object-fit: contain;
   max-height: 155px;
   margin-left: 20px;
-
   transition: transform 300ms;
   cursor: pointer;
+  border-radius: 4px; /* 포스터 모서리 둥글게 */
 }
 
-.movie-slider-poster:hover {
+.movie-slider__poster:hover {
   transform: scale(1.12);
   opacity: 1;
 }
 
-.movie-slider-poster.large {
+.movie-slider__poster.large {
   max-height: 370px;
   margin-left: 45px;
+}
+
+@media screen and (max-width: 768px) {
+  .movie-slider__title {
+    font-size: 1.3em;
+  }
+
+  .movie-slider__poster {
+    max-height: 130px;
+    margin-left: 15px;
+  }
+
+  .movie-slider__poster.large {
+    max-height: 300px;
+    margin-left: 30px;
+  }
+
+  .movie-slider__sort-controls {
+    gap: 8px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .movie-slider__header {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-right: 10px;
+  }
+
+  .movie-slider__title {
+    font-size: 1.2em;
+    padding-left: 15px;
+  }
+
+  .movie-slider__sort-controls {
+    margin-left: 15px;
+    margin-top: 8px;
+    overflow-x: auto; /* 정렬 버튼이 많을 경우 가로 스크롤 가능하도록 */
+    width: calc(100% - 20px);
+    padding-bottom: 5px;
+  }
+
+  .movie-slider__sort-controls::-webkit-scrollbar {
+    display: none;
+  }
+
+  .movie-slider__poster {
+    max-height: 110px;
+    margin-left: 10px;
+  }
+
+  .movie-slider__poster.large {
+    max-height: 220px;
+    margin-left: 20px;
+  }
+
+  .movie-slider__posters {
+    padding: 15px 0;
+  }
 }
