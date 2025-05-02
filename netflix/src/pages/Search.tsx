@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
+import Modal from '../components/home/Modal'
 import { endpoints } from '../constants/constants'
 import { useDebounce } from '../hooks'
 import theMovieAPI from '../services/api'
@@ -15,6 +16,14 @@ const Search = () => {
   const [isNotFound, setIsNotFound] = useState<boolean>(false)
   const [searchedMovies, setSearchedMovies] = useState<Movie[]>([])
   const debouncedQuery = useDebounce<string>(query, 300)
+
+  const [isSelected, setIsSelected] = useState<boolean>(false)
+  const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null)
+
+  const handleMovieClick = (movie: Movie) => {
+    setSelectedMovie(movie)
+    setIsSelected(true)
+  }
 
   useEffect(() => {
     if (debouncedQuery === '') {
@@ -77,34 +86,44 @@ const Search = () => {
   }
 
   return (
-    <div className='search-container'>
-      <div className='search-header'>
-        <h1 className='search-title'>
-          "{query}"에 대한 검색 결과
-          {searchedMovies.length > 0 && (
-            <span className='result-count'>({searchedMovies.length})</span>
-          )}
-        </h1>
+    <>
+      <div className='search-container'>
+        <div className='search-header'>
+          <h1 className='search-title'>
+            "{query}"에 대한 검색 결과
+            {searchedMovies.length > 0 && (
+              <span className='result-count'>({searchedMovies.length})</span>
+            )}
+          </h1>
+        </div>
+
+        <div className='search-results'>
+          {searchedMovies.map((movie) => (
+            <div key={movie.id} className='movie-card'>
+              <img
+                onClick={() => handleMovieClick(movie)}
+                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                alt={movie.title || ''}
+                className='movie-poster'
+              />
+              <div className='movie-info'>
+                <h3 className='movie-title'>{movie.title}</h3>
+                <p className='movie-date'>
+                  {movie.release_date && movie.release_date.getFullYear()}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
 
-      <div className='search-results'>
-        {searchedMovies.map((movie) => (
-          <div key={movie.id} className='movie-card'>
-            <img
-              src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-              alt={movie.title || ''}
-              className='movie-poster'
-            />
-            <div className='movie-info'>
-              <h3 className='movie-title'>{movie.title}</h3>
-              <p className='movie-date'>
-                {movie.release_date && movie.release_date.getFullYear()}
-              </p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
+      {isSelected && (
+        <Modal
+          selectedMovie={selectedMovie as Movie}
+          setIsModalOpen={setIsSelected}
+        />
+      )}
+    </>
   )
 }
 
