@@ -25,7 +25,10 @@ const Modal = ({ selectedMovie, setIsModalOpen, isVideo = false }: Props) => {
 
   return (
     <div className='modal-overlay'>
-      <section className='modal' ref={modalRef}>
+      <section
+        className={`modal ${isVideo ? 'modal-video' : 'modal-info'}`}
+        ref={modalRef}
+      >
         <span
           onClick={() => setIsModalOpen(false)}
           className='modal-close'
@@ -34,10 +37,8 @@ const Modal = ({ selectedMovie, setIsModalOpen, isVideo = false }: Props) => {
           X
         </span>
         {isVideo ? (
-          // 비디오 표시
           selectedMovie?.videos?.results[0]?.key ? (
             <iframe
-              className='modal-movie banner-player'
               title={`${
                 selectedMovie?.title || selectedMovie?.name || '영화'
               } 예고편`}
@@ -47,14 +48,14 @@ const Modal = ({ selectedMovie, setIsModalOpen, isVideo = false }: Props) => {
               loading='lazy'
             ></iframe>
           ) : (
-            <div className='banner-player-fallback'>
+            <div className='modal-fallback'>
               <p>예고편을 찾을 수 없습니다.</p>
             </div>
           )
         ) : (
           <>
             <img
-              className='modal-movie'
+              className='modal-image'
               src={`https://image.tmdb.org/t/p/original/${selectedMovie.backdrop_path}`}
               alt={selectedMovie.name || selectedMovie.title || ''}
             />
