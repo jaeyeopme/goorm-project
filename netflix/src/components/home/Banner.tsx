@@ -72,27 +72,25 @@ const Banner = () => {
           backgroundImage: `url(https://image.tmdb.org/t/p/original${movie?.backdrop_path})`,
         }}
       >
-        <div className='banner-content'>
-          <h1 className='banner-title'>
+        <div className='banner__content'>
+          <h1 className='banner__title'>
             {movie?.title || movie?.name || movie?.original_name}
           </h1>
-          <div className='banner-buttons'>
-            <Button
-              onClick={() => openModal(movie as Movie, true)}
-              text='play'
-              className='banner-btn play'
-            />
-            <Button
-              onClick={() => openModal(movie as Movie)}
-              text='more information'
-              className='banner-btn info'
-            />
-          </div>
-          <h1 className='banner-description'>
+          <Button
+            onClick={() => openModal(movie as Movie, true)}
+            text='play'
+            className='banner-btn play'
+          />
+          <Button
+            onClick={() => openModal(movie as Movie)}
+            text='more information'
+            className='banner-btn info'
+          />
+          <h1 className='banner__description'>
             {truncateString(movie?.overview ?? '', 60)}
           </h1>
         </div>
-        <div className='banner-fadeBottom' />
+        <div className='banner__fade-bottom' />
       </header>
       {isModalOpen && selectedMovie && (
         <Modal
