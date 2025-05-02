@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { categories } from '../../constants/constants'
 import theMovieAPI from '../../services/api'
-import { Category, Movie, SortOption } from '../../types/types'
+import { Category, Movie, SortOption } from '../../types'
 import Button from '../common/Button'
 import Modal from './Modal'
 import './MovieSlider.css'

@@ -1,4 +1,4 @@
-import { BannerButton, SortButton } from '../../types/types'
+import { BannerButton, SortButton } from '../../types'
 import './Button.css'
 
 type Props = SortButton | BannerButton

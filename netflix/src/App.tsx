@@ -3,14 +3,13 @@ import './App.css'
 import Footer from './components/layout/Footer'
 import Nav from './components/layout/Nav'
 import Home from './pages/Home'
+import Search from './pages/Search'
 
 const Layout = () => {
   return (
     <>
       <Nav />
-
       <Outlet />
-
       <Footer />
     </>
   )
@@ -22,6 +21,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Layout />}>
           <Route index element={<Home />} />
+          <Route path='/search' element={<Search />} />
         </Route>
       </Routes>
     </BrowserRouter>

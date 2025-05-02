@@ -1,21 +1,15 @@
 import { useEffect, useState } from 'react'
 import { endpoints } from '../../constants/constants'
 import theMovieAPI from '../../services/api'
-import { Movie } from '../../types/types'
+import { Movie } from '../../types'
+import {
+  generateRandomNumber,
+  hasValidBackdrop,
+  truncateString,
+} from '../../utils'
 import Button from '../common/Button'
 import './Banner.css'
 import Modal from './Modal'
-
-const generateRandomNumber = (max: number) => {
-  return Math.floor(Math.random() * max)
-}
-
-const truncateString = (str: string, n: number) => {
-  return str?.length > n ? str.substring(0, n - 1) + '...' : str
-}
-
-const hasValidBackdrop = (movie: Movie) =>
-  movie.backdrop_path !== undefined && movie.backdrop_path !== ''
 
 const Banner = () => {
   const [movie, setMovie] = useState<Movie | null>(null)

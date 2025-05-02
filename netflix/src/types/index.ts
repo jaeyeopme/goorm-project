@@ -8,6 +8,7 @@ export type EndpointKey =
   | 'HORROR_MOVIES'
   | 'ROMANCE_MOVIES'
   | 'DOCUMENTARIES'
+  | 'SEARCH'
 
 export type CategoryKey =
   | 'NETFLIX_ORIGINALS'

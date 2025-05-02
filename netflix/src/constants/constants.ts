@@ -1,4 +1,4 @@
-import { Category, CategoryKey, EndpointKey, SortButton } from '../types/types'
+import { Category, CategoryKey, EndpointKey, SortButton } from '../types'
 
 export const endpoints: Record<EndpointKey, string> = {
   NOW_PLAYING: 'movie/now_playing',
@@ -10,6 +10,7 @@ export const endpoints: Record<EndpointKey, string> = {
   HORROR_MOVIES: '/discover/movie?with_genres=27',
   ROMANCE_MOVIES: '/discover/movie?with_genres=10749',
   DOCUMENTARIES: '/discover/movie?with_genres=99',
+  SEARCH: '/search/multi',
 } as const
 
 const defaultSortButton: SortButton = {

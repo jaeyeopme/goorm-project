@@ -8,6 +8,7 @@ const theMovieAPI = axios.create({
   },
   params: {
     language: 'ko-KR',
+    include_adult: false,
   },
 })
 

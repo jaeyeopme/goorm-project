@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { Movie } from '../../types/types'
+import { Movie } from '../../types'
 import './Modal.css'
 
 interface Props {
@@ -13,7 +13,7 @@ const Modal = ({ selectedMovie, setIsModalOpen, isVideo = false }: Props) => {
 
   useEffect(() => {
     const eventListener = (e: MouseEvent) => {
-      const target = e.target as HTMLElement
+      const target = e.target as HTMLButtonElement
       if (modalRef.current && !modalRef.current.contains(target))
         setIsModalOpen(false)
     }

@@ -6,4 +6,5 @@
 #root {
   font-family: 'Netflix Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   background: #111;
+  min-height: 100vh;
 }
