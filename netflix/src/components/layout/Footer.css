@@ -1,60 +1,112 @@
-.footer-container {
-  width: 100%;
-  display: flex;
-  justify-content: center;
+/* Netflix Footer 컴포넌트 - 변수 정의 */
+:root {
+  /* 색상 변수 */
+  --footer-text-color: #757575;
+  --footer-text-hover: #b3b3b3;
+  --footer-background: #141414;
+
+  /* 크기 및 간격 */
+  --footer-title-size: 16px;
+  --footer-text-size: 13px;
+  --footer-spacing-large: 30px;
+  --footer-spacing-medium: 20px;
+  --footer-spacing-small: 15px;
+  --footer-link-padding: 5px 0;
 }
 
+/* 푸터 기본 스타일 */
 .footer {
-  background-color: #111;
-  color: #757575;
-  padding: 50px 0;
-  margin-top: 20px;
-  font-size: 13px;
-  width: 100%;
+  color: var(--footer-text-color);
+  padding-block: var(--footer-spacing-large);
+  background-color: var(--footer-background);
+  font-size: var(--footer-text-size);
 }
 
-.footer-content {
+.footer__container {
+  width: 100%;
   max-width: 980px;
   margin: 0 auto;
-  padding: 0 4%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  padding-inline: 4%;
 }
 
-.footer-title {
-  margin-bottom: 30px;
-  font-size: 16px;
+.footer__title {
+  margin-block-end: var(--footer-spacing-large);
+  font-size: var(--footer-title-size);
   text-align: center;
+  font-weight: normal;
 }
 
-.footer-links {
+/* 푸터 링크 그리드 */
+.footer__links {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-gap: 15px;
-  margin-bottom: 30px;
+  gap: var(--footer-spacing-small);
+  margin-block-end: var(--footer-spacing-large);
   width: 100%;
   max-width: 800px;
-  justify-content: center;
+  margin-inline: auto;
 }
 
-.footer-link {
-  color: #757575;
+.footer__link {
+  color: var(--footer-text-color);
   text-decoration: none;
   display: block;
-  padding: 5px 0;
+  padding: var(--footer-link-padding);
   text-align: center;
+  transition: color 0.2s ease;
 }
 
-.footer-link:hover {
+.footer__link:hover {
+  color: var(--footer-text-hover);
   text-decoration: underline;
 }
 
-.footer-copyright {
-  margin-top: 20px;
+.footer__link:focus-visible {
+  outline: 2px solid var(--footer-text-hover);
+  outline-offset: 2px;
 }
 
-.footer-country {
-  font-size: 13px;
-  margin-top: 20px;
+/* 푸터 하단 정보 */
+.footer__copyright {
+  margin-block-start: var(--footer-spacing-medium);
+  text-align: center;
+}
+
+.footer__country {
+  font-size: var(--footer-text-size);
+  margin-block-start: var(--footer-spacing-medium);
+  text-align: center;
+}
+
+/* 반응형 디자인 */
+@media screen and (max-width: 768px) {
+  .footer__links {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .footer__title {
+    font-size: 15px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .footer__links {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .footer__title {
+    margin-block-end: 20px;
+  }
+
+  .footer {
+    padding-block: 20px;
+  }
+}
+
+/* 접근성 대응 */
+@media (prefers-reduced-motion) {
+  .footer__link {
+    transition: none;
+  }
 }
