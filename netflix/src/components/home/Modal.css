@@ -1,15 +1,4 @@
-/* ==========================================================================
-   Netflix 모달 컴포넌트 스타일
-   - BEM 명명 규칙 적용
-   - 접근성 강화
-   - 논리적 그룹화
-   ========================================================================== */
-
-/* --------------------------------------------------------------------------
-   CSS 변수 정의
-   -------------------------------------------------------------------------- */
 :root {
-  /* 색상 변수 */
   --color-background-primary: #141414;
   --color-background-secondary: #181818;
   --color-text-primary: #ffffff;
@@ -19,68 +8,48 @@
   --color-success: #46d369;
   --color-overlay: rgba(0, 0, 0, 0.7);
 
-  /* 크기 및 간격 */
   --modal-max-width: 850px;
   --modal-padding-large: 24px 32px;
   --modal-padding-small: 16px 20px;
   --modal-border-radius: 4px;
   --modal-close-size: 36px;
 
-  /* 애니메이션 */
   --animation-duration: 0.3s;
   --animation-timing: ease;
 }
 
-/* --------------------------------------------------------------------------
-     모달 오버레이 (배경)
-     -------------------------------------------------------------------------- */
 .modal__overlay {
-  /* 위치 및 크기 */
   position: fixed;
   inset: 0;
   z-index: 1000;
 
-  /* 디스플레이 */
   display: flex;
   justify-content: center;
   align-items: center;
 
-  /* 외관 */
   background-color: var(--color-overlay);
 
-  /* 애니메이션 */
   animation: modal-fade-in var(--animation-duration) var(--animation-timing);
 }
 
-/* --------------------------------------------------------------------------
-     모달 기본 컨테이너
-     -------------------------------------------------------------------------- */
 .modal {
-  /* 위치 및 크기 */
   position: relative;
   width: var(--modal-max-width);
   max-width: 90vw;
   max-height: 80vh;
 
-  /* 디스플레이 */
   display: flex;
   flex-direction: column;
 
-  /* 외관 */
   background-color: var(--color-background-primary);
   border-radius: var(--modal-border-radius);
   overflow: hidden;
   box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4);
 
-  /* 애니메이션 */
   animation: modal-slide-up 0.4s var(--animation-timing);
 }
 
-/* --------------------------------------------------------------------------
-     모달 닫기 버튼
-     -------------------------------------------------------------------------- */
 .modal__close {
-  /* 위치 및 크기 */
   position: absolute;
   top: 15px;
   right: 15px;
@@ -88,12 +57,10 @@
   height: var(--modal-close-size);
   z-index: 10;
 
-  /* 디스플레이 */
   display: flex;
   align-items: center;
   justify-content: center;
 
-  /* 외관 */
   background-color: var(--color-background-secondary);
   color: var(--color-text-primary);
   border-radius: 50%;
@@ -102,12 +69,10 @@
   font-weight: bold;
   cursor: pointer;
 
-  /* 애니메이션 */
   transition: all 0.2s var(--animation-timing);
 
-  /* 텍스트 중앙 정렬 개선 */
   line-height: 0;
-  padding-bottom: 2px; /* X가 시각적으로 중앙에 오도록 미세 조정 */
+  padding-bottom: 2px;
   text-align: center;
 }
 
@@ -122,9 +87,6 @@
   transform: scale(1.1);
 }
 
-/* --------------------------------------------------------------------------
-     모달 정보 영역
-     -------------------------------------------------------------------------- */
 .modal__info {
   display: flex;
   flex-direction: column;
@@ -173,9 +135,6 @@
   font-size: 0.95rem;
 }
 
-/* --------------------------------------------------------------------------
-     모달 비디오 플레이어
-     -------------------------------------------------------------------------- */
 .modal__player {
   display: flex;
   justify-content: center;
@@ -211,9 +170,6 @@
   margin: 0;
 }
 
-/* --------------------------------------------------------------------------
-     애니메이션
-     -------------------------------------------------------------------------- */
 @keyframes modal-fade-in {
   from {
     opacity: 0;
@@ -234,9 +190,6 @@
   }
 }
 
-/* --------------------------------------------------------------------------
-     반응형 디자인
-     -------------------------------------------------------------------------- */
 @media (max-width: 768px) {
   .modal__content {
     padding: var(--modal-padding-small);
@@ -252,7 +205,6 @@
   }
 }
 
-/* 작은 모바일 화면 최적화 */
 @media (max-width: 480px) {
   .modal__close {
     top: 10px;
@@ -268,9 +220,6 @@
   }
 }
 
-/* --------------------------------------------------------------------------
-     접근성 개선
-     -------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   .modal__overlay,
   .modal,
@@ -280,7 +229,6 @@
   }
 }
 
-/* 하이 컨트라스트 모드 대응 */
 @media (forced-colors: active) {
   .modal__close {
     border: 2px solid ButtonText;
