@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import Modal from '../components/home/Modal'
+import Modal from '../components/common/Modal'
 import { endpoints } from '../constants/constants'
 import { useDebounce, useModal } from '../hooks'
 import theMovieAPI from '../services/api'

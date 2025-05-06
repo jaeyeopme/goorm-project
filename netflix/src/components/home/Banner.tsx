@@ -9,8 +9,8 @@ import {
   truncateString,
 } from '../../utils'
 import Button from '../common/Button'
+import Modal from '../common/Modal'
 import './Banner.css'
-import Modal from './Modal'
 
 const Banner = () => {
   const [movie, setMovie] = useState<Movie | null>(null)

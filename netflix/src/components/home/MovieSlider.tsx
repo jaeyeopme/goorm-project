@@ -4,7 +4,7 @@ import { useModal } from '../../hooks'
 import theMovieAPI from '../../services/api'
 import { Category, Movie, SortOption } from '../../types'
 import Button from '../common/Button'
-import Modal from './Modal'
+import Modal from '../common/Modal'
 import './MovieSlider.css'
 
 interface Props {
