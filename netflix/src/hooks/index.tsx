@@ -8,9 +8,7 @@ export const useDebounce = <T,>(value: T, delay: number): T => {
       setDebouncedValue(value)
     }, delay)
 
-    return () => {
-      clearTimeout(timer)
-    }
+    return () => clearTimeout(timer)
   }, [value, delay])
 
   return debouncedValue
@@ -25,17 +23,19 @@ export const useModal = <T,>() => {
     setSelectedItem(item)
     setIsModalOpen(true)
     setIsPlayer(isPlayer)
+    document.body.style.overflow = 'hidden'
   }
 
   const closeModal = () => {
-    setSelectedItem(null)
     setIsModalOpen(false)
+    setSelectedItem(null)
+    document.body.style.overflow = ''
   }
 
   return {
     isModalOpen,
-    selectedItem,
-    isPlayer,
+    selectedItem, // openModal에서 설정
+    isPlayer, // openModal에서 설정
     openModal,
     closeModal,
   }
